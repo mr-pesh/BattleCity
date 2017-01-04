@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>textures/Pz. Kpfw. IV.gif</file>
+    </qresource>
+</RCC>
