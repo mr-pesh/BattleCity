@@ -1,40 +1,58 @@
 #include "unit.h"
 
-Unit::Unit(QQuickItem *parent) : QQuickItem(parent)
-{
+Unit::Unit(QQuickItem *parent) : SceneObject(parent), is_alive(true) {  }
 
+Unit::Unit(QQuickItemPrivate &dd, QQuickItem *parent) : SceneObject(dd, parent), is_alive(true) {  }
+
+void Unit::setAliveState(const bool alive)
+{
+    this->is_alive = alive;
+    emit aliveStateChanged(alive);
 }
 
-Player::Player(QQuickItem *parent) : Unit(parent)
+void Unit::setLivesCount(const int lives)
 {
-
+    this->lives_count = lives;
+    emit livesCountChanged(lives);
 }
 
-Enemy::Enemy(QQuickItem *parent) : Unit(parent)
+void Unit::setDirection(const int direction)
 {
-
+    current_direction = direction;
+    emit directionChanged(direction);
 }
 
-void Unit::move(Direction d)
+void Unit::spawn(const int x, const int y)
+{
+    if (lives_count >= 0)
+        setPosition(QPoint(x,y));
+    else
+        emit isDead();
+}
+
+void Unit::move(const Direction d)
 {
     switch(d)
     {
     case Direction::North:
-        setY(y() - 0.1);
+        setY(y() - SPEED_FACTOR);
+        setDirection((int)d);
         break;
     case Direction::South:
-        setY(y() + 0.1);
+        setY(y() + SPEED_FACTOR);
+        setDirection((int)d);
         break;
     case Direction::East:
-        setX(x() + 0.1);
+        setX(x() + SPEED_FACTOR);
+        setDirection((int)d);
         break;
     case Direction::West:
-        setX(x() - 0.1);
+        setX(x() - SPEED_FACTOR);
+        setDirection((int)d);
         break;
     }
 }
 
-void Unit::fire(Direction d)
+void Unit::fire()
 {
-    Q_UNUSED(d);
 }

@@ -1,52 +1,45 @@
 #ifndef UNIT_H
 #define UNIT_H
 
-#include <QtQuick/QQuickItem>
+#include "sceneobject.h"
+#include "projectile.h"
 
-enum class Direction
-{
-    North,
-    South,
-    East,
-    West
-};
-
-class Unit : public QQuickItem
+class Unit : public SceneObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(quint8 lives READ livesLeft WRITE setLivesCount NOTIFY livesCountChanged)
-
-protected:
-    Unit (QQuickItem *parent = Q_NULLPTR);
+    Q_PROPERTY(bool alive READ isAlive WRITE setAliveState NOTIFY aliveStateChanged)
+    Q_PROPERTY(int lives READ livesLeft WRITE setLivesCount NOTIFY livesCountChanged)
+    Q_PROPERTY(int direction READ direction WRITE setDirection NOTIFY directionChanged)    
 
 public:
-    quint8 livesLeft() const { return this->lives; }
-    void setLivesCount(const quint8 lives) { this->lives = lives; }
+    Unit(QQuickItem *parent = Q_NULLPTR);
+    Unit(QQuickItemPrivate &dd, QQuickItem *parent = Q_NULLPTR);
+
+    bool isAlive() const { return is_alive; }
+    int  livesLeft() const { return this->lives_count; }
+    int  direction() const { return this->current_direction; }
+    void setAliveState(const bool alive);
+    void setLivesCount(const int lives);
+    void setDirection(const int newDirection);
+
 
 public slots:
-    void move(Direction d);
-    void fire(Direction d);
+    void spawn(const int x, const int y);
+    void move(const Direction d);
+    void fire();
 
 signals:
-    void livesCountChanged(const quint8 lifes);
+    void directionChanged(const int direction);
+    void aliveStateChanged(const bool alive);
+    void livesCountChanged(const int lives);
+
+    void isDead();
 
 private:
-    quint8 lives;
-};
-
-class Player : public Unit
-{
-
-public:
-    Player(QQuickItem *parent = Q_NULLPTR);
-};
-
-class Enemy : public Unit
-{
-
-public:
-    Enemy(QQuickItem *parent = Q_NULLPTR);
+    bool is_alive;
+    int  lives_count;
+    int  current_direction;
 };
 
 #endif // UNIT_H

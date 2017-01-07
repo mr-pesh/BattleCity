@@ -2,7 +2,8 @@
 
 Wall::Wall()
 {
-    setFlag(ItemHasContents, true);
+//    setFlag(ItemHasContents, true);
+//    this->
 }
 
 //Wall::Wall()

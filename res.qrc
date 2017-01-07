@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>textures/Pz. Kpfw. IV.gif</file>
+        <file>textures/battle.png</file>
     </qresource>
 </RCC>

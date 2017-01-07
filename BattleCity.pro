@@ -7,14 +7,19 @@ HEADERS += \
     src/unit.h \
     src/wall.h \
     src/wallrenderer.h \
-    src/battleview.h
+    src/global.h \
+    src/projectile.h \
+    src/battlescene.h \
+    src/sceneobject.h
 
 SOURCES += \
     src/main.cpp \
     src/wall.cpp \
     src/wallrenderer.cpp \
     src/unit.cpp \
-    src/battleview.cpp
+    src/projectile.cpp \
+    src/battlescene.cpp \
+    src/sceneobject.cpp
 
 RESOURCES += qml.qrc \
     res.qrc

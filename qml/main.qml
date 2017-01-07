@@ -5,7 +5,8 @@ Item {
     width: 1024
     height: 768
 
-    MainForm {
+    MainWindow {
+        objectName: "mainForm"
         anchors.fill: parent
     }
 }
