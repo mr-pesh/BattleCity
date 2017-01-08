@@ -29,6 +29,15 @@ protected:
 public:
     // Provides simple collision detection method for rectangular items
     bool collidesWith(QQuickItem *sceneItem);
+    // Sets the moving event flag
+    void setMoveEvent(bool isMoving) { is_moving = isMoving; }
+    // Checks wether an object is at moving state
+    bool isMoving() const { return is_moving; }
+    // Performs the move action
+    virtual void move() = 0;
+
+private:
+    bool is_moving = false;
 };
 
 #endif // SCENEOBJECT_H

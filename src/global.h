@@ -1,7 +1,10 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#define SPEED_FACTOR 30
-#define FRAME_DURATION 80
+#define MOVE_SPEED 8
+#define FRAME_DURATION 30
+
+#define PLAYER_INITIAL_LIFES_COUNT 3
+#define PLAYER_INITIAL_DIRECTION 0
 
 #endif // GLOBAL_H

@@ -30,8 +30,10 @@ void Unit::setLivesCount(const int lives)
 
 void Unit::setDirection(const int direction)
 {
-    current_direction = direction;
-    emit directionChanged(direction);
+    if (current_direction != direction) {
+        current_direction = direction;
+        emit directionChanged(direction);
+    }
 }
 
 void Unit::spawn(const int x, const int y)
@@ -42,25 +44,20 @@ void Unit::spawn(const int x, const int y)
         emit isDead();
 }
 
-void Unit::move(const Direction d)
+void Unit::move()
 {
-    switch(d)
-    {
+    switch(current_direction) {
     case Direction::North:
-        setY(y() - SPEED_FACTOR);
-        setDirection((int)d);
+        setY(y() - MOVE_SPEED);
         break;
     case Direction::South:
-        setY(y() + SPEED_FACTOR);
-        setDirection((int)d);
+        setY(y() + MOVE_SPEED);
         break;
     case Direction::East:
-        setX(x() + SPEED_FACTOR);
-        setDirection((int)d);
+        setX(x() + MOVE_SPEED);
         break;
     case Direction::West:
-        setX(x() - SPEED_FACTOR);
-        setDirection((int)d);
+        setX(x() - MOVE_SPEED);
         break;
     }
 }

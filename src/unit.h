@@ -5,7 +5,6 @@
 
 class Unit : public SceneObject
 {
-
     Q_OBJECT
 
     Q_PROPERTY(bool alive READ isAlive WRITE setAliveState NOTIFY aliveStateChanged)
@@ -16,10 +15,12 @@ class Unit : public SceneObject
 
     ProjectileFactory *projectileFactory;
 
-public:
+protected:
     Unit(QQuickItem *parent = Q_NULLPTR);
     Unit(QQuickItemPrivate &dd, QQuickItem *parent = Q_NULLPTR);
-   ~Unit();
+
+public:
+    ~Unit();
 
     bool isAlive()   const { return is_alive; }
     int  livesLeft() const { return lives_count; }
@@ -32,7 +33,7 @@ public:
 
 public slots:
     void spawn(const int x, const int y);
-    void move (const Direction d);
+    void move () override;
     void fire ();
 
 signals:

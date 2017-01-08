@@ -1,16 +1,20 @@
 #include "unit.h"
 #include "projectile.h"
 
+QList<SceneObject*> *SceneObjectFactory::sceneObjectList = Q_NULLPTR;
+
 UnitFactory::UnitFactory(QList<SceneObject*> *unitList, QObject *parent)
     : SceneObjectFactory(parent)
 {
-    this->sceneObjectList = unitList;
+    if (unitList)
+        SceneObjectFactory::sceneObjectList = unitList;
 }
 
 ProjectileFactory::ProjectileFactory(QList<SceneObject*> *unitList, QObject *parent)
     : SceneObjectFactory(parent)
 {
-    this->sceneObjectList = unitList;
+    if (unitList != Q_NULLPTR && !sceneObjectList)
+        SceneObjectFactory::sceneObjectList = unitList;
 }
 
 SceneObject * UnitFactory::create(int params)
@@ -20,16 +24,27 @@ SceneObject * UnitFactory::create(int params)
     Unit * factoryObject = new Unit;
 
     if (params != 0) {
-        UNIT_PARAMS(params, lives, direction);
+        RETRIEVE_FACTORY_PARAMS(params, lives, direction);
     }
     factoryObject->lives_count = lives;
     factoryObject->current_direction = direction;
 
-    return dynamic_cast<SceneObject*>(factoryObject);
+    auto it = sceneObjectList->insert(sceneObjectList->end(), dynamic_cast<SceneObject*>(factoryObject));
+    return *it;
 }
 
 SceneObject * ProjectileFactory::create(int params)
 {
-    Q_UNUSED(params);
-    return dynamic_cast<SceneObject*>(new Projectile);
+    int speed = MOVE_SPEED + 1, direction = 0;
+
+    Projectile * factoryObject = new Projectile;
+
+    if (params != 0) {
+        RETRIEVE_FACTORY_PARAMS(params, speed, direction);
+    }
+    factoryObject->speed = speed;
+    factoryObject->direction = direction;
+
+    auto it = sceneObjectList->insert(sceneObjectList->end(), dynamic_cast<SceneObject*>(factoryObject));
+    return *it;
 }

@@ -9,9 +9,6 @@
 
 class BattleScene : public QQuickView
 {
-    // Property for accessing the Player class from QML
-    //Q_PROPERTY(Unit* player READ player WRITE setPlayer)
-
     // List of interactive objects holded by a scene
     QList<SceneObject*> itemList;
     // Manages the enemy unit creation
@@ -23,22 +20,19 @@ public:
     BattleScene(const QUrl &source, QWindow *parent = Q_NULLPTR);
    ~BattleScene();
 
-    /* Getters and setters for 'player' property */
-    Unit * player() const { return p_player; }
-    void setPlayer(Unit *p) { p_player = p; }
+    // Sets a pointer to a player instance; does nothing if the item already exists
+    void setPlayer(Unit *p);
+    // Returns a pointer to the player instance. The player object is always the first in item list
+    Unit * player() { return dynamic_cast<Unit*>(itemList.first()); }
+
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void keyReleaseEvent(QKeyEvent *e);
+    virtual void timerEvent(QTimerEvent *e);
 
 private:
     void initView();
-
-//private slots:
-//    void loadTextures();
-
-private:
-    Unit *p_player = Q_NULLPTR;
 };
 
 #endif // BATTLESCENE_H

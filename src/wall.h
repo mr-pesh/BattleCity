@@ -2,7 +2,7 @@
 #define WALL_H
 
 #include "wallrenderer.h"
-#include <QQuickItem>
+#include <QtQuick/QQuickItem>
 
 class Wall : public QQuickItem
 {

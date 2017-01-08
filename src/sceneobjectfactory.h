@@ -3,13 +3,15 @@
 
 #include "sceneobject.h"
 
-#define UNIT_PARAMS(params, lives, direction) \
-    lives = ((params << (sizeof(params) / 2)) >> (sizeof(params) / 2)); \
-    direction = (params >> (sizeof(params) / 2))
 
-#define SET_UNIT_PARAMS(params, lives, direction) \
-    params = lives; \
-    params &= (direction << (sizeof(params) / 2))
+#define RETRIEVE_FACTORY_PARAMS(params, var, direction) \
+    var = ((params << ((sizeof(params) * 8) / 2)) >> ((sizeof(params) * 8) / 2)); \
+    direction = (params >> ((sizeof(params) * 8) / 2))
+
+#define ASSIGN_FACTORY_PARAMS(params, var, direction) \
+    params = var; \
+    params |= (direction << ((sizeof(params) * 8) / 2))
+
 
 class SceneObjectFactory
 {
@@ -17,7 +19,7 @@ protected:
     // An object to manage the lifecycle of created items
     const QObject *p;
     // A pointer to a list of all scene object
-    QList<SceneObject*> *sceneObjectList;
+    static QList<SceneObject*> *sceneObjectList;
 
 protected:
     explicit SceneObjectFactory(QObject *parent) : p(parent) {  }
