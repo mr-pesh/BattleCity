@@ -8,25 +8,20 @@ BattleScene::BattleScene(const QUrl &source, QWindow *parent) : QQuickView(sourc
 
 BattleScene::~BattleScene()
 {
-//    for (const auto &texture : textureList)
-//        if (texture)
-//            delete texture;
+    delete unitFactory;
 }
 
 inline void BattleScene::initView()
 {
+    // Initializing a unit factory
+    unitFactory = new UnitFactory(&itemList);
     // Set the pointer to a player QML item
     setPlayer(rootObject()->findChild<Unit*>("player"));
+
     // Creating textures is only available after the scene graph has been initialized
     //connect(this, &QQuickWindow::sceneGraphInitialized, this, &BattleScene::loadTextures, Qt::DirectConnection);
+    //rootObject()->b
 }
-
-//void BattleScene::loadTextures()
-//{
-//    QSGTexture *playerTexture = createTextureFromImage(QImage(QStringLiteral(":/textures/Pz. Kpfw. IV.gif"), "GIF"), TextureCanUseAtlas);
-
-//    textureList << playerTexture;
-//}
 
 void BattleScene::keyPressEvent(QKeyEvent *e)
 {
@@ -48,7 +43,6 @@ void BattleScene::keyPressEvent(QKeyEvent *e)
             player()->fire();
         }
     }
-    //this->findChildren()
 }
 
 void BattleScene::keyReleaseEvent(QKeyEvent *e)

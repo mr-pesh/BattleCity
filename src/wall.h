@@ -11,18 +11,15 @@ class Wall : public QQuickItem
 public:
     Wall();
 
-//signals:
-//    void gotHit(quint32 x, quint32 y);
+public slots:
+    void sync();
+    void cleanup();
 
-//public slots:
-//    void sync();
-//    void cleanup();
+private slots:
+    void windowChanged(QQuickWindow *window);
 
-//private slots:
-//    void windowChanged(QQuickWindow *window);
-
-//private:
-//    WallRenderer *p_renderer = Q_NULLPTR;
+private:
+    WallRenderer *p_renderer = Q_NULLPTR;
 };
 
 #endif // WALL_H

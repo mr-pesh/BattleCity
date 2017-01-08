@@ -10,7 +10,8 @@ HEADERS += \
     src/global.h \
     src/projectile.h \
     src/battlescene.h \
-    src/sceneobject.h
+    src/sceneobject.h \
+    src/sceneobjectfactory.h
 
 SOURCES += \
     src/main.cpp \
@@ -19,7 +20,8 @@ SOURCES += \
     src/unit.cpp \
     src/projectile.cpp \
     src/battlescene.cpp \
-    src/sceneobject.cpp
+    src/sceneobject.cpp \
+    src/sceneobjectfactory.cpp
 
 RESOURCES += qml.qrc \
     res.qrc

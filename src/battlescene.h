@@ -1,17 +1,21 @@
-#ifndef BATTLEVIEW_H
-#define BATTLEVIEW_H
+#ifndef BATTLESCENE_H
+#define BATTLESCENE_H
 
 #include <QtQuick/QQuickView>
 #include <QtQuick/QSGTexture>
 
 #include "unit.h"
+#include "sceneobjectfactory.h"
 
 class BattleScene : public QQuickView
 {
     // Property for accessing the Player class from QML
-    Q_PROPERTY(Player* player READ player WRITE setPlayer)
-    // List of units holded by a scene
-    QVector<Unit*> unitList;
+    //Q_PROPERTY(Unit* player READ player WRITE setPlayer)
+
+    // List of interactive objects holded by a scene
+    QList<SceneObject*> itemList;
+    // Manages the enemy unit creation
+    UnitFactory *unitFactory;
 
 public:
     BattleScene(QWindow *parent = Q_NULLPTR);
@@ -37,4 +41,4 @@ private:
     Unit *p_player = Q_NULLPTR;
 };
 
-#endif // BATTLEVIEW_H
+#endif // BATTLESCENE_H

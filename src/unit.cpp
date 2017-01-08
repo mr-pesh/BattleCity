@@ -1,8 +1,20 @@
 #include "unit.h"
 
-Unit::Unit(QQuickItem *parent) : SceneObject(parent), is_alive(true) {  }
+Unit::Unit(QQuickItem *parent) : SceneObject(parent), is_alive(true)
+{
+    projectileFactory = new ProjectileFactory;
+}
 
-Unit::Unit(QQuickItemPrivate &dd, QQuickItem *parent) : SceneObject(dd, parent), is_alive(true) {  }
+
+Unit::Unit(QQuickItemPrivate &dd, QQuickItem *parent) : SceneObject(dd, parent), is_alive(true)
+{
+    projectileFactory = new ProjectileFactory;
+}
+
+Unit::~Unit()
+{
+    delete projectileFactory;
+}
 
 void Unit::setAliveState(const bool alive)
 {
@@ -55,4 +67,5 @@ void Unit::move(const Direction d)
 
 void Unit::fire()
 {
+    //auto p = projectileFactory->create();
 }

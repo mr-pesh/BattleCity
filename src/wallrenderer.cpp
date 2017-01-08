@@ -7,7 +7,7 @@ WallRenderer::WallRenderer(QObject *parent) : QObject(parent)
 
 WallRenderer::~WallRenderer()
 {
-    delete p_shader;
+    if (p_shader) delete p_shader;
 }
 
 void WallRenderer::paint()
