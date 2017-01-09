@@ -64,5 +64,7 @@ void Unit::move()
 
 void Unit::fire()
 {
-    //auto p = projectileFactory->create();
+    int projParams = 0;
+    ASSIGN_FACTORY_PARAMS(projParams, MOVE_SPEED, direction());
+    projectileFactory->create(projParams);
 }

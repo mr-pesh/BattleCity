@@ -9,10 +9,10 @@
 
 class BattleScene : public QQuickView
 {
-    // List of interactive objects holded by a scene
-    QList<SceneObject*> itemList;
     // Manages the enemy unit creation
     UnitFactory *unitFactory;
+    // List of interactive objects holded by a scene
+    QList<SceneObject*> itemList;
 
 public:
     BattleScene(QWindow *parent = Q_NULLPTR);
@@ -25,11 +25,10 @@ public:
     // Returns a pointer to the player instance. The player object is always the first in item list
     Unit * player() { return dynamic_cast<Unit*>(itemList.first()); }
 
-
 protected:
+    virtual void timerEvent(QTimerEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void keyReleaseEvent(QKeyEvent *e);
-    virtual void timerEvent(QTimerEvent *e);
 
 private:
     void initView();

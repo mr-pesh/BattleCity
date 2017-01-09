@@ -10,9 +10,10 @@ BattleScene::~BattleScene()
 {
     delete unitFactory;
 
-    for (const auto &item : itemList)
+    for (const auto item : itemList)
         delete item;
 }
+
 
 inline void BattleScene::initView()
 {

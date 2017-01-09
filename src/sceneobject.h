@@ -18,26 +18,28 @@ enum Direction
  **/
 class SceneObject : public QQuickItem
 {
-    /* Protect base class from copying */
     SceneObject(const SceneObject &) = default;
-    QQuickItem & operator =(const QQuickItem&) { return *this; }
+    SceneObject & operator =(const QQuickItem&) { return *this; }
 
 protected:
     SceneObject(QQuickItem *parent = Q_NULLPTR);
     SceneObject(QQuickItemPrivate &dd, QQuickItem *parent = Q_NULLPTR);
 
 public:
-    // Provides simple collision detection method for rectangular items
-    bool collidesWith(QQuickItem *sceneItem);
+    // Provides collision detection on rectangular items
+    QQuickItem *checkCollisions(qreal newX, qreal newY);
     // Sets the moving event flag
     void setMoveEvent(bool isMoving) { is_moving = isMoving; }
     // Checks wether an object is at moving state
-    bool isMoving() const { return is_moving; }
+    bool isMoving() const { return is_moving.load(); }
     // Performs the move action
     virtual void move() = 0;
 
+    void setX(qreal x);
+    void setY(qreal y);
+
 private:
-    bool is_moving = false;
+    std::atomic<bool> is_moving;
 };
 
 #endif // SCENEOBJECT_H

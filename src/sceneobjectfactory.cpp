@@ -19,7 +19,7 @@ ProjectileFactory::ProjectileFactory(QList<SceneObject*> *unitList, QObject *par
 
 SceneObject * UnitFactory::create(int params)
 {
-    int lives = 0, direction = 0;
+    int lives = 0, direction = DEFAULT_UNIT_DIRECTION;
 
     Unit * factoryObject = new Unit;
 
@@ -35,7 +35,7 @@ SceneObject * UnitFactory::create(int params)
 
 SceneObject * ProjectileFactory::create(int params)
 {
-    int speed = MOVE_SPEED + 1, direction = 0;
+    int speed = MOVE_SPEED + 3, direction = DEFAULT_UNIT_DIRECTION;
 
     Projectile * factoryObject = new Projectile;
 
