@@ -18,6 +18,12 @@ enum Direction
  **/
 class SceneObject : public QQuickItem
 {
+    Q_OBJECT
+
+    Q_PROPERTY(bool moving READ isMoving WRITE setMoveEvent)
+    Q_PROPERTY(int  moveSpeed READ speed WRITE setSpeed NOTIFY speedChanged)
+    Q_PROPERTY(int  direction READ direction WRITE setDirection NOTIFY directionChanged)
+
     SceneObject(const SceneObject &) = default;
     SceneObject & operator =(const QQuickItem&) { return *this; }
 
@@ -25,21 +31,38 @@ protected:
     SceneObject(QQuickItem *parent = Q_NULLPTR);
     SceneObject(QQuickItemPrivate &dd, QQuickItem *parent = Q_NULLPTR);
 
+signals:
+    void directionChanged (int direction);
+    void liveStateChanged (bool alive);
+    void speedChanged (int speed);
+
+
+public:   
+    int  speed() const { return current_speed; }
+    int  direction() const { return current_direction; }
+
+    void setSpeed(int newSpeedValue);
+    void setDirection(int newDirection);
+
 public:
     // Provides collision detection on rectangular items
-    QQuickItem *checkCollision(qreal newX, qreal newY);
+    virtual QQuickItem *checkCollision(qreal newX, qreal newY);
     // Sets the moving event flag
     void setMoveEvent(bool isMoving) { is_moving = isMoving; }
     // Checks wether an object is at moving state
     bool isMoving() const { return is_moving.load(); }
     // Performs the move action
-    virtual void move() = 0;
+    void move();
 
-    void setX(qreal x);
-    void setY(qreal y);
+    virtual void setX(qreal) = 0;
+    virtual void setY(qreal) = 0;
+
+protected:
+    int current_speed;
+    int current_direction;
 
 private:
-    std::atomic<bool> is_moving;
+    std::atomic_bool is_moving;
 };
 
 #endif // SCENEOBJECT_H

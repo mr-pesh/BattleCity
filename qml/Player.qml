@@ -5,10 +5,9 @@ Unit {
     id: player
     lives: 3
     direction: 0
+    moveSpeed: 8
     objectName: "player"
 
-    width: 80
-    height: 80
 
     Image {
         id: img

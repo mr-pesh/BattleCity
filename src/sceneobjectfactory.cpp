@@ -1,17 +1,32 @@
 #include "unit.h"
-#include "projectile.h"
+#include "shell.h"
 
-QList<SceneObject*> *SceneObjectFactory::sceneObjectList = Q_NULLPTR;
+QQmlEngine * SceneObjectFactory::engine = Q_NULLPTR;
+QQmlContext * SceneObjectFactory::itemContext = Q_NULLPTR;
+QList<SceneObject*> * SceneObjectFactory::sceneObjectList = Q_NULLPTR;
 
-UnitFactory::UnitFactory(QList<SceneObject*> *unitList, QObject *parent)
-    : SceneObjectFactory(parent)
+void SceneObjectFactory::setEngine(QQmlEngine *e)
+{
+    SceneObjectFactory::engine = e;
+}
+
+void SceneObjectFactory::setItemContext(QQmlContext *context)
+{
+    SceneObjectFactory::itemContext = context;
+}
+
+void SceneObjectFactory::setSceneObjectList(QList<SceneObject *> *list)
+{
+    SceneObjectFactory::sceneObjectList = list;
+}
+
+UnitFactory::UnitFactory(QList<SceneObject*> *unitList)
 {
     if (unitList)
         SceneObjectFactory::sceneObjectList = unitList;
 }
 
-ProjectileFactory::ProjectileFactory(QList<SceneObject*> *unitList, QObject *parent)
-    : SceneObjectFactory(parent)
+ShellFactory::ShellFactory(QList<SceneObject*> *unitList)
 {
     if (unitList != Q_NULLPTR && !sceneObjectList)
         SceneObjectFactory::sceneObjectList = unitList;
@@ -20,8 +35,9 @@ ProjectileFactory::ProjectileFactory(QList<SceneObject*> *unitList, QObject *par
 SceneObject * UnitFactory::create(int params)
 {
     int lives = 0, direction = DEFAULT_UNIT_DIRECTION;
+    bool refersValidObjectList = (sceneObjectList != Q_NULLPTR);
 
-    Unit * factoryObject = new Unit;
+    Unit * factoryObject = (refersValidObjectList ? new Unit : Q_NULLPTR);
 
     if (params != 0) {
         RETRIEVE_FACTORY_PARAMS(params, lives, direction);
@@ -29,22 +45,27 @@ SceneObject * UnitFactory::create(int params)
     factoryObject->lives_count = lives;
     factoryObject->current_direction = direction;
 
-    auto it = sceneObjectList->insert(sceneObjectList->end(), dynamic_cast<SceneObject*>(factoryObject));
-    return *it;
+    return refersValidObjectList ?
+                *(sceneObjectList->insert(sceneObjectList->end(), dynamic_cast<SceneObject*>(factoryObject))) : Q_NULLPTR;
 }
 
-SceneObject * ProjectileFactory::create(int params)
+SceneObject * ShellFactory::create(int speed, int direction, const QRectF &geometry, QQuickItem *sceneContext)
 {
-    int speed = MOVE_SPEED + 3, direction = DEFAULT_UNIT_DIRECTION;
+    if (sceneObjectList && engine)
+    {
+        static QQmlComponent component(engine, QUrl("qrc:/qml/Shell.qml"));
+        QQuickItem *factoryObject = qobject_cast<QQuickItem*>(component.create(itemContext));
 
-    Projectile * factoryObject = new Projectile;
+        factoryObject->setParentItem(sceneContext);
+        factoryObject->setProperty("moving", true);
+        factoryObject->setProperty("x", geometry.x());
+        factoryObject->setProperty("y", geometry.y());
+        factoryObject->setProperty("moveSpeed", speed);
+        factoryObject->setProperty("direction", direction);
+        factoryObject->setProperty("width", geometry.width());
+        factoryObject->setProperty("height", geometry.height());
 
-    if (params != 0) {
-        RETRIEVE_FACTORY_PARAMS(params, speed, direction);
+        return *(sceneObjectList->insert(sceneObjectList->end(), (SceneObject*)factoryObject));
     }
-    factoryObject->speed = speed;
-    factoryObject->direction = direction;
-
-    auto it = sceneObjectList->insert(sceneObjectList->end(), dynamic_cast<SceneObject*>(factoryObject));
-    return *it;
+    return Q_NULLPTR;
 }

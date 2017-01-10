@@ -10,7 +10,7 @@
 class BattleScene : public QQuickView
 {
     // Manages the enemy unit creation
-    UnitFactory *unitFactory;
+    UnitFactory unitFactory;
     // List of interactive objects holded by a scene
     QList<SceneObject*> itemList;
 

@@ -12,29 +12,29 @@ QQuickItem* SceneObject::checkCollision(qreal newX, qreal newY)
          movesLeft = (newX - x < 0),
            movesUp = (newY - y < 0);
 
-    QPointF collisionPoints[4] = {
+    QPointF collisionPoints[] = {
         {
-        /*x*/ movesHorizontally ? (movesLeft ? (x - 1) : ((x + 1) + width)) : newX,
-        /*y*/ movesHorizontally ? newY : (movesUp ? (y - 1) : ((y + 1) + height))
+        /*x1*/ movesHorizontally ? (movesLeft ? (x - 1) : ((x + 1) + width)) : newX,
+        /*y1*/ movesHorizontally ? newY : (movesUp ? (y - 1) : ((y + 1) + height))
         },
         {
-        /*x*/ movesHorizontally ? (movesLeft ? newX : (newX + width)) : newX,
-        /*y*/ movesHorizontally ? newY : (movesUp ? newY : (newY + height))
+        /*x2*/ movesHorizontally ? (movesLeft ? newX : (newX + width)) : newX,
+        /*y2*/ movesHorizontally ? newY : (movesUp ? newY : (newY + height))
         },
         {
-        /*x*/ movesHorizontally ? (movesLeft ? (x - 1) : ((x + 1) + width)) : (newX + width),
-        /*y*/ movesHorizontally ? (newY + height) : (movesUp ? (y - 1) : ((y + 1) + height))
+        /*x3*/ movesHorizontally ? (movesLeft ? (x - 1) : ((x + 1) + width)) : (newX + width),
+        /*y3*/ movesHorizontally ? (newY + height) : (movesUp ? (y - 1) : ((y + 1) + height))
         },
         {
-        /*x*/ movesHorizontally ? (movesLeft ? newX : (newX + width)) : newX + width,
-        /*y*/ movesHorizontally ? (newY + height) : (movesUp ? newY : (newY + height))
+        /*x4*/ movesHorizontally ? (movesLeft ? newX : (newX + width)) : newX + width,
+        /*y4*/ movesHorizontally ? (newY + height) : (movesUp ? newY : (newY + height))
         }
     };
 
     for (const QPointF &point : collisionPoints)
     {
         QQuickItem * collidingItem = parentItem()->childAt(point.x(), point.y());
-
+        // Check if there is an item at the given point
         if (collidingItem)
             return collidingItem;
     }
@@ -42,20 +42,34 @@ QQuickItem* SceneObject::checkCollision(qreal newX, qreal newY)
     return Q_NULLPTR;
 }
 
-void SceneObject::setX(qreal x)
+void SceneObject::setSpeed(int newSpeedValue)
 {
-    if ( x >= 0 && x < parentItem()->width())
-    {
-        if (!checkCollision(x, this->y()))
-                QQuickItem::setX(x);
+    current_speed = newSpeedValue;
+    emit speedChanged(newSpeedValue);
+}
+
+void SceneObject::setDirection(int direction)
+{
+    if (current_direction != direction) {
+        current_direction  = direction;
+        emit directionChanged(direction);
     }
 }
 
-void SceneObject::setY(qreal y)
+void SceneObject::move()
 {
-    if (y >= 0 && y < parentItem()->height())
-    {
-        if (!checkCollision(this->x(), y))
-            QQuickItem::setY(y);
+    switch(current_direction) {
+    case Direction::North:
+        setY(y() - speed());
+        break;
+    case Direction::South:
+        setY(y() + speed());
+        break;
+    case Direction::East:
+        setX(x() + speed());
+        break;
+    case Direction::West:
+        setX(x() - speed());
+        break;
     }
 }

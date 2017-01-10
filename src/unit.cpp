@@ -2,18 +2,17 @@
 
 Unit::Unit(QQuickItem *parent) : SceneObject(parent), is_alive(true)
 {
-    projectileFactory = new ProjectileFactory;
-}
 
+}
 
 Unit::Unit(QQuickItemPrivate &dd, QQuickItem *parent) : SceneObject(dd, parent), is_alive(true)
 {
-    projectileFactory = new ProjectileFactory;
+
 }
 
 Unit::~Unit()
 {
-    delete projectileFactory;
+
 }
 
 void Unit::setAliveState(const bool alive)
@@ -25,46 +24,47 @@ void Unit::setAliveState(const bool alive)
 void Unit::setLivesCount(const int lives)
 {
     this->lives_count = lives;
-    emit livesCountChanged(lives);
-}
 
-void Unit::setDirection(const int direction)
-{
-    if (current_direction != direction) {
-        current_direction = direction;
-        emit directionChanged(direction);
-    }
-}
-
-void Unit::spawn(const int x, const int y)
-{
-    if (lives_count >= 0)
-        setPosition(QPoint(x,y));
+    if (lives == 0)
+        setAliveState(false);
     else
-        emit isDead();
+        emit livesCountChanged(lives);
 }
 
-void Unit::move()
+void Unit::setX(qreal x)
 {
-    switch(current_direction) {
-    case Direction::North:
-        setY(y() - MOVE_SPEED);
-        break;
-    case Direction::South:
-        setY(y() + MOVE_SPEED);
-        break;
-    case Direction::East:
-        setX(x() + MOVE_SPEED);
-        break;
-    case Direction::West:
-        setX(x() - MOVE_SPEED);
-        break;
-    }
+    //if ( x >= 0 && x < parentItem()->width())
+    //{
+        if (!checkCollision(x, this->y()))
+            QQuickItem::setX(x);
+    //}
+}
+
+void Unit::setY(qreal y)
+{
+    //if (y >= 0 && y < parentItem()->height())
+    //{
+        if (!checkCollision(this->x(), y))
+            QQuickItem::setY(y);
+    //}
 }
 
 void Unit::fire()
 {
-    int projParams = 0;
-    ASSIGN_FACTORY_PARAMS(projParams, MOVE_SPEED, direction());
-    projectileFactory->create(projParams);
+    int direction = this->direction();
+
+    bool movesHorizontally = (direction == Direction::East || direction == Direction::West),
+            movesLeft = (direction == Direction::West),
+            movesUp = (direction == Direction::North);
+
+    qreal x = this->x(), y = this->y(), width = this->width(), height = this->height();
+
+    QRectF geometry = {
+        movesHorizontally ? (movesLeft ? (x - 1) : (x + width + 1)) : (x + ((width - 4) / 2)),
+        movesHorizontally ? (y + ((height - 10) / 2)) : (movesUp ? (y - 1) : (y + height + 1)),
+        width / 12,
+        height / 5
+    };
+
+    shellFactory.create(SHELL_SPEED, direction, geometry, parentItem());
 }

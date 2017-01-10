@@ -16,37 +16,45 @@
 class SceneObjectFactory
 {
 protected:
-    // An object to manage the lifecycle of created items
-    const QObject *p;
+    // Engine for instantiating the QML components
+    static QQmlEngine *engine;
+    //
+    static QQmlContext *itemContext;
     // A pointer to a list of all scene object
     static QList<SceneObject*> *sceneObjectList;
 
 protected:
-    explicit SceneObjectFactory(QObject *parent) : p(parent) {  }
+    SceneObjectFactory() = default;
+    SceneObjectFactory(const SceneObjectFactory &) = default;
 
 public:
-    virtual SceneObject * create(int params) = 0;
+    //virtual SceneObject * create(int params) = 0;
     virtual ~SceneObjectFactory() = default;
+
+public:
+    static void setEngine(QQmlEngine *);
+    static void setItemContext(QQmlContext *);
+    static void setSceneObjectList(QList<SceneObject*> *);
 };
 
 
 class UnitFactory : public SceneObjectFactory
 {
 public:
-    UnitFactory(QList<SceneObject*> *unitList, QObject *parent = Q_NULLPTR);
+    UnitFactory(QList<SceneObject*> *unitList = Q_NULLPTR);
 
 public:
-    virtual SceneObject * create(int params = 0) Q_DECL_OVERRIDE;
+    virtual SceneObject * create(int params = 0);
 };
 
 
-class ProjectileFactory : public SceneObjectFactory
+class ShellFactory : public SceneObjectFactory
 {
 public:
-    ProjectileFactory(QList<SceneObject*> *unitList = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    ShellFactory(QList<SceneObject*> *unitList = Q_NULLPTR);
 
 public:
-    virtual SceneObject * create(int params = 0) Q_DECL_OVERRIDE;
+    virtual SceneObject * create(int speed, int direction, const QRectF &geometry, QQuickItem *sceneContext);
 };
 
 #endif // SCENEOBJECTFACTORY_H

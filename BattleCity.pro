@@ -8,20 +8,20 @@ HEADERS += \
     src/wall.h \
     src/wallrenderer.h \
     src/global.h \
-    src/projectile.h \
     src/battlescene.h \
     src/sceneobject.h \
-    src/sceneobjectfactory.h
+    src/sceneobjectfactory.h \
+    src/shell.h
 
 SOURCES += \
     src/main.cpp \
     src/wall.cpp \
     src/wallrenderer.cpp \
     src/unit.cpp \
-    src/projectile.cpp \
     src/battlescene.cpp \
     src/sceneobject.cpp \
-    src/sceneobjectfactory.cpp
+    src/sceneobjectfactory.cpp \
+    src/shell.cpp
 
 RESOURCES += qml.qrc \
     res.qrc

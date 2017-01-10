@@ -8,17 +8,14 @@ BattleScene::BattleScene(const QUrl &source, QWindow *parent) : QQuickView(sourc
 
 BattleScene::~BattleScene()
 {
-    delete unitFactory;
-
-    for (const auto item : itemList)
-        delete item;
 }
-
 
 inline void BattleScene::initView()
 {
     // Initializing a unit factory
-    unitFactory = new UnitFactory(&itemList);
+    unitFactory.setEngine(engine());
+    unitFactory.setItemContext(rootContext());
+    unitFactory.setSceneObjectList(&itemList);
     // Set the pointer to a player QML item
     setPlayer(rootObject()->findChild<Unit*>("player"));
     // Starting the timer that manages move event handling
@@ -85,8 +82,7 @@ void BattleScene::timerEvent(QTimerEvent *e)
 {
     Q_UNUSED(e);
 
-    for (auto &item : itemList) {
-        if (item->isMoving())
-            item->move();
-    }
+    for (auto it = itemList.rbegin(); it != itemList.rend(); ++it)
+        if ((*it)->isMoving())
+            (*it)->move();
 }

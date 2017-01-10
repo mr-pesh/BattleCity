@@ -3,5 +3,6 @@
         <file>qml/main.qml</file>
         <file>qml/Player.qml</file>
         <file>qml/BattleScene.ui.qml</file>
+        <file>qml/Shell.qml</file>
     </qresource>
 </RCC>
