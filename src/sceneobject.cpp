@@ -4,34 +4,36 @@ SceneObject::SceneObject(QQuickItem *parent) : QQuickItem(parent), is_moving(fal
 
 SceneObject::SceneObject(QQuickItemPrivate &dd, QQuickItem *parent) : QQuickItem(dd, parent), is_moving(false) {  }
 
-QQuickItem* SceneObject::checkCollisions(qreal newX, qreal newY)
+QQuickItem* SceneObject::checkCollision(qreal newX, qreal newY)
 {
-    bool movesHorizontally = (newY - this->y() == 0),
-         movesLeft = (newX - this->x() < 0),
-           movesUp = (newY - this->y() < 0);
+    qreal x = this->x(), y = this->y(), width = this->width(), height = this->height();
 
-    QPointF collidePoints[4] = {
+    bool movesHorizontally = (newY - y == 0),
+         movesLeft = (newX - x < 0),
+           movesUp = (newY - y < 0);
+
+    QPointF collisionPoints[4] = {
         {
-        /*x*/ movesHorizontally ? (movesLeft ? (this->x() - 1) : ((this->x() + 1) + this->width())) : newX,
-        /*y*/ movesHorizontally ? newY : (movesUp ? (this->y() - 1) : ((this->y() + 1) + this->height()))
+        /*x*/ movesHorizontally ? (movesLeft ? (x - 1) : ((x + 1) + width)) : newX,
+        /*y*/ movesHorizontally ? newY : (movesUp ? (y - 1) : ((y + 1) + height))
         },
         {
-        /*x*/ movesHorizontally ? (movesLeft ? newX : (newX + this->width())) : newX,
-        /*y*/ movesHorizontally ? newY : (movesUp ? newY : (newY + this->height()))
+        /*x*/ movesHorizontally ? (movesLeft ? newX : (newX + width)) : newX,
+        /*y*/ movesHorizontally ? newY : (movesUp ? newY : (newY + height))
         },
         {
-        /*x*/ movesHorizontally ? (movesLeft ? (this->x() - 1) : ((this->x() + 1) + this->width())) : (newX + this->width()),
-        /*y*/ movesHorizontally ? (newY + this->height()) : (movesUp ? (this->y() - 1) : ((this->y() + 1) + this->height()))
+        /*x*/ movesHorizontally ? (movesLeft ? (x - 1) : ((x + 1) + width)) : (newX + width),
+        /*y*/ movesHorizontally ? (newY + height) : (movesUp ? (y - 1) : ((y + 1) + height))
         },
         {
-        /*x*/ movesHorizontally ? (movesLeft ? newX : (newX + this->width())) : newX + this->width(),
-        /*y*/ movesHorizontally ? (newY + this->height()) : (movesUp ? newY : (newY + this->height()))
+        /*x*/ movesHorizontally ? (movesLeft ? newX : (newX + width)) : newX + width,
+        /*y*/ movesHorizontally ? (newY + height) : (movesUp ? newY : (newY + height))
         }
     };
 
-    for (const QPointF &collidePoint : collidePoints)
+    for (const QPointF &point : collisionPoints)
     {
-        QQuickItem * collidingItem = parentItem()->childAt(collidePoint.x(), collidePoint.y());
+        QQuickItem * collidingItem = parentItem()->childAt(point.x(), point.y());
 
         if (collidingItem)
             return collidingItem;
@@ -44,7 +46,7 @@ void SceneObject::setX(qreal x)
 {
     if ( x >= 0 && x < parentItem()->width())
     {
-        if (!checkCollisions(x, this->y()))
+        if (!checkCollision(x, this->y()))
                 QQuickItem::setX(x);
     }
 }
@@ -53,7 +55,7 @@ void SceneObject::setY(qreal y)
 {
     if (y >= 0 && y < parentItem()->height())
     {
-        if (!checkCollisions(this->x(), y))
+        if (!checkCollision(this->x(), y))
             QQuickItem::setY(y);
     }
 }

@@ -13,7 +13,7 @@ Unit {
     Image {
         id: img
         anchors.fill: parent
-        source: "qrc:/textures/battle.png"
+        source: "qrc:/res/battle.png"
         rotation: player.direction
     }
 }

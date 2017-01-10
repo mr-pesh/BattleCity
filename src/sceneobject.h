@@ -27,7 +27,7 @@ protected:
 
 public:
     // Provides collision detection on rectangular items
-    QQuickItem *checkCollisions(qreal newX, qreal newY);
+    QQuickItem *checkCollision(qreal newX, qreal newY);
     // Sets the moving event flag
     void setMoveEvent(bool isMoving) { is_moving = isMoving; }
     // Checks wether an object is at moving state
