@@ -1,8 +1,14 @@
 #include "sceneobject.h"
 
-SceneObject::SceneObject(QQuickItem *parent) : QQuickItem(parent), is_moving(false) {  }
+SceneObject::SceneObject(QQuickItem *parent) : QQuickItem(parent),
+    is_alive(true),
+    is_moving(false)
+{  }
 
-SceneObject::SceneObject(QQuickItemPrivate &dd, QQuickItem *parent) : QQuickItem(dd, parent), is_moving(false) {  }
+SceneObject::SceneObject(QQuickItemPrivate &dd, QQuickItem *parent) : QQuickItem(dd, parent),
+    is_alive(true),
+    is_moving(false)
+{  }
 
 QQuickItem* SceneObject::checkCollision(qreal newX, qreal newY)
 {
@@ -42,6 +48,12 @@ QQuickItem* SceneObject::checkCollision(qreal newX, qreal newY)
     return Q_NULLPTR;
 }
 
+void SceneObject::setLiveState(bool alive)
+{
+    this->is_alive = alive;
+    emit liveStateChanged(alive);
+}
+
 void SceneObject::setSpeed(int newSpeedValue)
 {
     current_speed = newSpeedValue;
@@ -54,6 +66,11 @@ void SceneObject::setDirection(int direction)
         current_direction  = direction;
         emit directionChanged(direction);
     }
+}
+
+void SceneObject::kill()
+{
+    setLiveState(false);
 }
 
 void SceneObject::move()

@@ -1,32 +1,26 @@
 #include "unit.h"
 
-Unit::Unit(QQuickItem *parent) : SceneObject(parent), is_alive(true)
+Unit::Unit(QQuickItem *parent) : SceneObject(parent)
 {
-
+    shellFactory = new SceneObjectFactory(QUrl(QStringLiteral("qrc:/qml/Shell.qml")));
 }
 
-Unit::Unit(QQuickItemPrivate &dd, QQuickItem *parent) : SceneObject(dd, parent), is_alive(true)
+Unit::Unit(QQuickItemPrivate &dd, QQuickItem *parent) : SceneObject(dd, parent)
 {
-
+    shellFactory = new SceneObjectFactory(QUrl(QStringLiteral("qrc:/qml/Shell.qml")));
 }
 
 Unit::~Unit()
 {
-
+    delete shellFactory;
 }
 
-void Unit::setAliveState(const bool alive)
-{
-    this->is_alive = alive;
-    emit aliveStateChanged(alive);
-}
-
-void Unit::setLivesCount(const int lives)
+void Unit::setLivesCount(int lives)
 {
     this->lives_count = lives;
 
     if (lives == 0)
-        setAliveState(false);
+        setLiveState(false);
     else
         emit livesCountChanged(lives);
 }
@@ -66,5 +60,5 @@ void Unit::fire()
         height / 5
     };
 
-    shellFactory.create(SHELL_SPEED, direction, geometry, parentItem());
+    shellFactory->create(SHELL_SPEED, direction, geometry, parentItem());
 }

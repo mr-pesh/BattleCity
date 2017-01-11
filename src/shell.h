@@ -6,15 +6,16 @@
 class Shell : public SceneObject
 {
     Q_OBJECT
-    
-    friend class ShellFactory;
 
 protected:
     Shell(QQuickItem *parent = Q_NULLPTR);
     Shell(QQuickItemPrivate &dd, QQuickItem *parent = Q_NULLPTR);
 
 signals:
-    void exploded(int x, int y);
+    void exploded(QQuickItem *);
+
+private slots:
+    void onExplodeAction(QQuickItem *);
 
 public:
     virtual void setX(qreal);

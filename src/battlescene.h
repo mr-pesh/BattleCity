@@ -9,10 +9,10 @@
 
 class BattleScene : public QQuickView
 {
-    // Manages the enemy unit creation
-    UnitFactory unitFactory;
     // List of interactive objects holded by a scene
-    QList<SceneObject*> itemList;
+    SceneObjectList itemList;
+    // Manages the enemy unit creation
+    SceneObjectFactory *unitFactory;
 
 public:
     BattleScene(QWindow *parent = Q_NULLPTR);
@@ -31,7 +31,7 @@ protected:
     virtual void keyReleaseEvent(QKeyEvent *e);
 
 private:
-    void initView();
+    void initScene();
 };
 
 #endif // BATTLESCENE_H

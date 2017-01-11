@@ -13,48 +13,31 @@
     params |= (direction << ((sizeof(params) * 8) / 2))
 
 
-class SceneObjectFactory
+class SceneObjectFactory : QObject
 {
-protected:
+    // A URL to a QML item definition which will be used for factory object instantiation
+    const QUrl qmlInstance;
     // Engine for instantiating the QML components
     static QQmlEngine *engine;
-    //
+    // Context of creating QML items
     static QQmlContext *itemContext;
     // A pointer to a list of all scene object
-    static QList<SceneObject*> *sceneObjectList;
-
-protected:
-    SceneObjectFactory() = default;
-    SceneObjectFactory(const SceneObjectFactory &) = default;
-
-public:
-    //virtual SceneObject * create(int params) = 0;
-    virtual ~SceneObjectFactory() = default;
+    static SceneObjectList *sceneObjectList;
 
 public:
     static void setEngine(QQmlEngine *);
     static void setItemContext(QQmlContext *);
     static void setSceneObjectList(QList<SceneObject*> *);
-};
 
-
-class UnitFactory : public SceneObjectFactory
-{
-public:
-    UnitFactory(QList<SceneObject*> *unitList = Q_NULLPTR);
+private:
+    SceneObjectFactory(const SceneObjectFactory &) = default;
+    SceneObjectFactory & operator =(const SceneObjectFactory &) { return *this; }
 
 public:
-    virtual SceneObject * create(int params = 0);
-};
-
-
-class ShellFactory : public SceneObjectFactory
-{
-public:
-    ShellFactory(QList<SceneObject*> *unitList = Q_NULLPTR);
+    SceneObjectFactory(const QUrl &qmlDefinition);
 
 public:
-    virtual SceneObject * create(int speed, int direction, const QRectF &geometry, QQuickItem *sceneContext);
+    SceneObject * create(int speed, int direction, const QRectF &geometry, QQuickItem *sceneContext);
 };
 
 #endif // SCENEOBJECTFACTORY_H
