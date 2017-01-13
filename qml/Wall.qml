@@ -37,11 +37,13 @@ Rectangle
             varying highp vec2 texCoord;
             uniform sampler2D texture;
             void main() {
-                while (texCoord.x > 1.0)
-                    texCoord.x = texCoord.x - 1;
-                while (texCoord.y > 1.0)
-                    texCoord.y = texCoord.y - 1;
-                gl_FragColor = texture2D(texture, texCoord);
+                float x = texCoord.x;
+                float y = texCoord.y;
+                while (x > 1.0)
+                    x = x - 1.0;
+                while (y > 1.0)
+                    y = y - 1.0;
+                gl_FragColor = texture2D(texture, vec2(x, y));
             }"
         blending: false
     }
