@@ -12,10 +12,12 @@ Shell::Shell(QQuickItemPrivate &dd, QQuickItem *parent) : SceneObject(dd, parent
 
 void Shell::setX(qreal x)
 {
-    if (!checkCollision(x, this->y()))
-        QQuickItem::setX(x);
+    QQuickItem *barrier = checkCollision(x, this->y());
+
+    if (barrier)
+        emit exploded(barrier);
     else
-        setLiveState(false);
+        QQuickItem::setX(x);
 }
 
 void Shell::setY(qreal y)

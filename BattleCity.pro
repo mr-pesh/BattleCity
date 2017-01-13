@@ -5,8 +5,6 @@ CONFIG += c++11
 
 HEADERS += \
     src/unit.h \
-    src/wall.h \
-    src/wallrenderer.h \
     src/global.h \
     src/battlescene.h \
     src/sceneobject.h \
@@ -15,8 +13,6 @@ HEADERS += \
 
 SOURCES += \
     src/main.cpp \
-    src/wall.cpp \
-    src/wallrenderer.cpp \
     src/unit.cpp \
     src/battlescene.cpp \
     src/sceneobject.cpp \

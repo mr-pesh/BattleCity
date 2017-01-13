@@ -19,7 +19,7 @@ void SceneObjectFactory::setItemContext(QQmlContext *context)
     SceneObjectFactory::itemContext = context;
 }
 
-void SceneObjectFactory::setSceneObjectList(QList<SceneObject *> *list)
+void SceneObjectFactory::setSceneObjectList(SceneObjectList *list)
 {
     SceneObjectFactory::sceneObjectList = list;
 }
@@ -28,12 +28,11 @@ SceneObject * SceneObjectFactory::create(int speed, int direction, const QRectF 
 {
     if (sceneObjectList && engine)
     {
-        static QQmlComponent component(engine, qmlInstance);
+        QQmlComponent component(engine, qmlInstance);
 
         QQuickItem *factoryObject = qobject_cast<QQuickItem*>(component.create(itemContext));
 
         factoryObject->setParentItem(sceneContext);
-        factoryObject->setProperty("moving", true);
         factoryObject->setProperty("x", geometry.x());
         factoryObject->setProperty("y", geometry.y());
         factoryObject->setProperty("moveSpeed", speed);

@@ -48,6 +48,11 @@ QQuickItem* SceneObject::checkCollision(qreal newX, qreal newY)
     return Q_NULLPTR;
 }
 
+void SceneObject::kill()
+{
+    setLiveState(false);
+}
+
 void SceneObject::setLiveState(bool alive)
 {
     this->is_alive = alive;
@@ -66,11 +71,6 @@ void SceneObject::setDirection(int direction)
         current_direction  = direction;
         emit directionChanged(direction);
     }
-}
-
-void SceneObject::kill()
-{
-    setLiveState(false);
 }
 
 void SceneObject::move()

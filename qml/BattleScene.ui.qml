@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.0
 
 Rectangle {
     width: 1024
@@ -14,48 +14,41 @@ Rectangle {
         height: 50
     }
 
-    Rectangle {
+    Wall {
         id: left_wall
         anchors.top: parent.top
         anchors.left: parent.left
         width: player.width / 4
         height: parent.height
-        color: "#3f2525"
     }
 
-    Rectangle {
+    Wall {
         id: bot_wall
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         width: parent.width
         height: player.height / 4
-        color: "#3f2525"
     }
 
-    Rectangle {
+    Wall {
         id: right_wall
         anchors.right: parent.right
         anchors.top: parent.top
         width: player.width / 4
         height: parent.height
-        color: "#3f2525"
     }
 
-    Rectangle {
+    Wall {
         id: top_wall
         anchors.top: parent.top
         anchors.right: parent.right
         width: parent.width
         height: player.height / 4
-        color: "#3f2525"
     }
 
-    Rectangle {
-        //id: right_wall
+    Wall {
+        width: 200; height: 100
         x: 730
         y: 161
-        width: 95
-        height: 111
-        color: "#ecc58a"
     }
 }

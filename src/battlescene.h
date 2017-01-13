@@ -32,6 +32,7 @@ protected:
 
 private:
     void initScene();
+    void spawnEnemies();
 };
 
 #endif // BATTLESCENE_H

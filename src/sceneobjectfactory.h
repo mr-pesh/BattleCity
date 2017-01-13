@@ -13,7 +13,7 @@
     params |= (direction << ((sizeof(params) * 8) / 2))
 
 
-class SceneObjectFactory : QObject
+class SceneObjectFactory
 {
     // A URL to a QML item definition which will be used for factory object instantiation
     const QUrl qmlInstance;
@@ -27,7 +27,7 @@ class SceneObjectFactory : QObject
 public:
     static void setEngine(QQmlEngine *);
     static void setItemContext(QQmlContext *);
-    static void setSceneObjectList(QList<SceneObject*> *);
+    static void setSceneObjectList(SceneObjectList *);
 
 private:
     SceneObjectFactory(const SceneObjectFactory &) = default;

@@ -20,8 +20,17 @@ inline void BattleScene::initScene()
     unitFactory->setSceneObjectList(&itemList);
     // Set the pointer to a player QML item
     setPlayer(rootObject()->findChild<Unit*>("player"));
+    // Spawn start amount of enemies
+    spawnEnemies();
     // Starting the timer that manages move event handling
     startTimer(FRAME_DURATION);
+}
+
+inline void BattleScene::spawnEnemies()
+{
+    unitFactory->create(MOVE_SPEED / 2, Direction::East, QRectF(300, 300, 70, 70), rootObject());
+    unitFactory->create(MOVE_SPEED / 2, Direction::East, QRectF(300, 500, 70, 70), rootObject());
+    unitFactory->create(MOVE_SPEED / 2, Direction::East, QRectF(800, 500, 70, 70), rootObject());
 }
 
 void BattleScene::setPlayer(Unit *p)

@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>res/com.badlogic.androidgames.tank1990.png</file>
         <file>res/battle.png</file>
+        <file>res/brick_sml_red1.png</file>
     </qresource>
 </RCC>
