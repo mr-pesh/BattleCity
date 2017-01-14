@@ -42,20 +42,24 @@ Unit {
 
         id: glowTimer
         repeat: true
-        running: true
+        running: false
         interval: 700
-        triggeredOnStart: true
 
         onTriggered: {
-            if (ticks > 6)
+            if (ticks > 6) {
+                ticks = 0;
                 glowTimer.stop();
-
-            respawnGlow.opacityFactor = respawnGlow.opacityFactor > 0 ? 0 : 10
-            ticks++;
+                respawnGlow.opacityFactor = 0;
+            }
+            else {
+                respawnGlow.opacityFactor = respawnGlow.opacityFactor > 0 ? 0 : 10
+                ticks++;
+            }
         }
     }
 
     onLivesCountChanged: {
+        respawnGlow.opacityFactor = 10;
         glowTimer.start();
     }
     onLiveStateChanged: {

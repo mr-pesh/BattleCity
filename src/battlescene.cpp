@@ -50,7 +50,13 @@ inline void BattleScene::setPlayer(Unit *p)
 {
     // The player item can be set only once
     if (itemList.isEmpty() && p != Q_NULLPTR) {
+        // Connecting the game over event handler
         connect(p, SIGNAL(playerIsDead()), this, SLOT(onGameOverEvent()));
+        // Set the player respawn handler
+        connect(p, &Unit::livesCountChanged, this, [=](int lives) {
+            if (lives > 0)
+                p->setPosition(unitSpawnPoints[0]);
+        });
         itemList.append(dynamic_cast<SceneObject*>(p));
         p->setProperty("moveSpeed", PLAYER_SPEED);
     }
@@ -156,8 +162,13 @@ void BattleScene::timerEvent(QTimerEvent *)
             if (item->isMoving())
                 item->move();
         } else {
+            // Check if the item to remove is the player item
+            if (player() != item)
+                delete item;
+            else
+                player()->setProperty("visible", false);
+
             itemList.removeOne(item);
-            delete item;
         }
     }
 }

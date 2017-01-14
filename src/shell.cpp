@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "unit.h"
 
 Shell::Shell(QQuickItem *parent) : SceneObject(parent)
 {
@@ -33,8 +34,16 @@ void Shell::setY(qreal y)
 void Shell::onExplodeAction(QQuickItem *barrier)
 {
     setLiveState(false);
+
     SceneObject * dynamicItem = dynamic_cast<SceneObject*>(barrier);
     // Check if item is a SceneObject (so it can be destroyed)
     if (dynamicItem)
-        dynamicItem->kill();
+    {
+        Unit * unit = dynamic_cast<Unit*>(dynamicItem);
+        // Check if item is a Unit (so it has the amount of lives)
+        if (unit)
+            unit->setLivesCount(unit->livesLeft() - 1);
+        else
+            dynamicItem->kill();
+    }
 }
