@@ -72,7 +72,9 @@ inline void BattleScene::createEnemies()
     std::for_each(&unitSpawnPoints[2], std::end(unitSpawnPoints), [this] (const QPointF &p)
     {
         Unit * enemyUnit = directSpawn(p);
+        enemyUnit->setMoveState(true);
         connect(enemyUnit, SIGNAL(timeToFire()), enemyUnit, SLOT(fire()));
+        connect(enemyUnit, SIGNAL(timeToMove()), enemyUnit, SLOT(move()));
     });
 }
 

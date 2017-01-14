@@ -39,6 +39,7 @@ Unit {
     }
 
     signal timeToFire;
+    signal timeToMove;
 
     Timer {
         repeat: true
@@ -47,6 +48,7 @@ Unit {
 
         onTriggered: {
             timeToFire();
+            timeToMove();
         }
     }
 }

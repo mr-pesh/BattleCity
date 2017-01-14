@@ -26,6 +26,8 @@ public:
 
 public slots:
     void fire();
+    void move();
+    void rotate();
 
 signals:
     void livesCountChanged(const int lives);
