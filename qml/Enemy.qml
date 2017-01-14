@@ -37,4 +37,16 @@ Unit {
             }"
         rotation: enemy.direction
     }
+
+    signal timeToFire;
+
+    Timer {
+        repeat: true
+        running: true
+        interval: 3000
+
+        onTriggered: {
+            timeToFire();
+        }
+    }
 }

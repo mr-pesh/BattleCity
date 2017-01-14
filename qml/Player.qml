@@ -4,12 +4,12 @@ import QtGraphicalEffects 1.0
 
 Unit {
     id: player
-    lives: 3
-    moving: false
-    direction: 0
-    moveSpeed: 6
     objectName: "player"
+    direction: 0
+    lives: 3
 
+    // Handled by a scene
+    signal playerIsDead
 
     Image {
         id: img
@@ -17,8 +17,10 @@ Unit {
         source: "qrc:/res/battle.png"
         rotation: player.direction
     }
-
-    Glow {
+    // The glow effect that appears while the player spawns
+    Glow
+    {
+        // Used for smooth glow animation
         property double opacityFactor: 0
 
         id: respawnGlow
@@ -30,10 +32,12 @@ Unit {
         source: img
         rotation: player.direction
 
+        // Applies pulse animation effect on glow effect
         Behavior on opacityFactor { NumberAnimation {} }
     }
 
     Timer {
+        // A glow pulse counter
         property int ticks: 0
 
         id: glowTimer
@@ -53,5 +57,9 @@ Unit {
 
     onLivesCountChanged: {
         glowTimer.start();
+    }
+    onLiveStateChanged: {
+        if (!alive)
+            playerIsDead();
     }
 }

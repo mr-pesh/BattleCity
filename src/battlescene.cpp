@@ -1,4 +1,15 @@
 #include "battlescene.h"
+#include <algorithm>
+
+QPointF BattleScene::unitSpawnPoints[] =
+{
+   /* Base player spawn points  */
+    { 360,645 }, { 360,  20 },
+   /* Initial enemy spawn points
+    * at each corner of the map */
+    { 15,  20 }, { 695,  20 },
+    { 15, 700 }, { 695, 700 },
+};
 
 BattleScene::BattleScene(QWindow *parent) : QQuickView(parent) { initScene(); }
 
@@ -23,44 +34,62 @@ inline void BattleScene::initScene()
 {
     // Initializing a unit factory
     unitFactory->setEngine(engine());
-    unitFactory->setItemContext(rootContext());
     unitFactory->setSceneObjectList(&itemList);
+    unitFactory->setItemContext(rootContext());
     // Set the pointer to a player QML item
     setPlayer(rootObject()->findChild<Unit*>("player"));
-    // Spawn start amount of enemies
+    // Initialize the pseudo-random number generator for choosing enemy spawn points
+    qsrand(time(NULL));
+    // Spawn initial amount of enemies
     createEnemies();
     // Starting the timer that manages move event handling
     startTimer(FRAME_DURATION);
 }
 
-inline void BattleScene::createEnemies()
+inline void BattleScene::setPlayer(Unit *p)
 {
-    spawnEnemy(15, 20);
-    spawnEnemy(15, 700);
-    spawnEnemy(695, 700);
-    spawnEnemy(695, 20);
+    // The player item can be set only once
+    if (itemList.isEmpty() && p != Q_NULLPTR) {
+        connect(p, SIGNAL(playerIsDead()), this, SLOT(onGameOverEvent()));
+        itemList.append(dynamic_cast<SceneObject*>(p));
+        p->setProperty("moveSpeed", PLAYER_SPEED);
+    }
 }
 
-void BattleScene::spawnEnemy(qreal x, qreal y)
+inline void BattleScene::createEnemies()
+{
+    // Becase the initial enemy spawn points are the
+    // corners of the map we starting from the 3-d point
+    std::for_each(&unitSpawnPoints[2], std::end(unitSpawnPoints), [this] (const QPointF &p)
+    {
+        Unit * enemyUnit = directSpawn(p);
+        connect(enemyUnit, SIGNAL(timeToFire()), enemyUnit, SLOT(fire()));
+    });
+}
+
+inline void BattleScene::spawnEnemy()
+{
+    directSpawn(unitSpawnPoints[(qrand() % std::size(unitSpawnPoints))]);
+}
+
+Unit* BattleScene::directSpawn(const QPointF &position)
 {
     static Unit *player = this->player();
 
     QRectF enemyGeometry = {
-        x,
-        y,
-        (player->width() / 4.0) + player->width(),
+         position.x(),
+         position.y(),
+        (player->width()  / 4.0) + player->width(),
         (player->height() / 4.0) + player->height(),
     };
-    Direction enemyDirection = (y > (this->height() / 2)) ? Direction::North : Direction::South;
+    Direction enemyDirection = (position.y() > (this->height() / 2)) ? Direction::North : Direction::South;
 
-    unitFactory->create(ENEMY_SPEED, enemyDirection, enemyGeometry, rootObject());
+    return (Unit*)unitFactory->create(ENEMY_SPEED, enemyDirection, enemyGeometry, rootObject());
 }
 
-void BattleScene::setPlayer(Unit *p)
+void BattleScene::onGameOverEvent()
 {
-    // The player item can be set only once
-    if (itemList.isEmpty())
-         itemList.append(dynamic_cast<SceneObject*>(p));
+
 }
 
 void BattleScene::keyPressEvent(QKeyEvent *e)
@@ -117,10 +146,8 @@ void BattleScene::keyReleaseEvent(QKeyEvent *e)
     }
 }
 
-void BattleScene::timerEvent(QTimerEvent *e)
+void BattleScene::timerEvent(QTimerEvent *)
 {
-    Q_UNUSED(e);
-
     for (auto it = itemList.crbegin(); it != itemList.crend(); ++it)
     {
         SceneObject *item = *it;

@@ -48,7 +48,7 @@ signals:
     void liveStateChanged(const bool alive);
     void directionChanged (int direction);
     void speedChanged (int speed);
-    void dead(SceneObject*);
+    //void dead(SceneObject*);
 
 public:
     // Provides collision detection on rectangular items

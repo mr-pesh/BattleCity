@@ -9,7 +9,7 @@ Rectangle {
     Player {
         id: player
         x: 360
-        y: 650
+        y: 644
         width: 40
         height: 40
     }
