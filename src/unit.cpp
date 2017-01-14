@@ -55,7 +55,7 @@ void Unit::fire()
 
     QRectF geometry = {
         movesHorizontally ? (movesLeft ? (x - 1) : (x + width + 1)) : (x + ((width - 4) / 2)),
-        movesHorizontally ? (y + ((height - 10) / 2)) : (movesUp ? (y - 1) : (y + height + 1)),
+        movesHorizontally ? (y + ((height - 7) / 2)) : (movesUp ? (y - 1) : (y + height + 1)),
         width / 12,
         height / 5
     };

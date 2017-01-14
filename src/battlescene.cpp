@@ -2,9 +2,17 @@
 
 BattleScene::BattleScene(QWindow *parent) : QQuickView(parent) { initScene(); }
 
-BattleScene::BattleScene(QQmlEngine *engine, QWindow *parent) : QQuickView(engine, parent) { initScene(); }
+BattleScene::BattleScene(QQmlEngine *engine, QWindow *parent) : QQuickView(engine, parent),
+             unitFactory(new SceneObjectFactory(QUrl(QStringLiteral("qrc:/qml/Enemy.qml"))))
+{
+    initScene();
+}
 
-BattleScene::BattleScene(const QUrl &source, QWindow *parent) : QQuickView(source, parent) { initScene(); }
+BattleScene::BattleScene(const QUrl &source, QWindow *parent) : QQuickView(source, parent),
+             unitFactory(new SceneObjectFactory(QUrl(QStringLiteral("qrc:/qml/Enemy.qml"))))
+{
+    initScene();
+}
 
 BattleScene::~BattleScene()
 {
@@ -14,23 +22,38 @@ BattleScene::~BattleScene()
 inline void BattleScene::initScene()
 {
     // Initializing a unit factory
-    unitFactory = new SceneObjectFactory(QUrl(QStringLiteral("qrc:/qml/Enemy.qml")));
     unitFactory->setEngine(engine());
     unitFactory->setItemContext(rootContext());
     unitFactory->setSceneObjectList(&itemList);
     // Set the pointer to a player QML item
     setPlayer(rootObject()->findChild<Unit*>("player"));
     // Spawn start amount of enemies
-    spawnEnemies();
+    createEnemies();
     // Starting the timer that manages move event handling
     startTimer(FRAME_DURATION);
 }
 
-inline void BattleScene::spawnEnemies()
+inline void BattleScene::createEnemies()
 {
-    unitFactory->create(MOVE_SPEED / 2, Direction::East, QRectF(300, 300, 70, 70), rootObject());
-    unitFactory->create(MOVE_SPEED / 2, Direction::East, QRectF(300, 500, 70, 70), rootObject());
-    unitFactory->create(MOVE_SPEED / 2, Direction::East, QRectF(800, 500, 70, 70), rootObject());
+    spawnEnemy(15, 20);
+    spawnEnemy(15, 700);
+    spawnEnemy(695, 700);
+    spawnEnemy(695, 20);
+}
+
+void BattleScene::spawnEnemy(qreal x, qreal y)
+{
+    static Unit *player = this->player();
+
+    QRectF enemyGeometry = {
+        x,
+        y,
+        (player->width() / 4.0) + player->width(),
+        (player->height() / 4.0) + player->height(),
+    };
+    Direction enemyDirection = (y > (this->height() / 2)) ? Direction::North : Direction::South;
+
+    unitFactory->create(ENEMY_SPEED, enemyDirection, enemyGeometry, rootObject());
 }
 
 void BattleScene::setPlayer(Unit *p)

@@ -7,7 +7,7 @@ Unit {
     lives: 3
     moving: false
     direction: 0
-    moveSpeed: 8
+    moveSpeed: 6
     objectName: "player"
 
 

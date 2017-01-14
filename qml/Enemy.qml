@@ -11,7 +11,6 @@ Unit {
         visible: false
         anchors.fill: parent
         source: "qrc:/res/com.badlogic.androidgames.tank1990.png"
-        rotation: enemy.direction
     }
     ShaderEffect {
         anchors.fill: parent
@@ -36,5 +35,6 @@ Unit {
                 lowp vec4 tex = texture2D(srcImg, coord);
                 gl_FragColor = vec4(vec3(dot(tex.rgb, vec3(0.344, 0.5, 0.156))), tex.a) * qt_Opacity;
             }"
+        rotation: enemy.direction
     }
 }

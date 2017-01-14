@@ -22,6 +22,8 @@ public:
 
     // Sets a pointer to a player instance; does nothing if the item already exists
     void setPlayer(Unit *p);
+    // Creates new enemy at the given coordinate
+    void spawnEnemy(qreal x, qreal y);
     // Returns a pointer to the player instance. The player object is always the first in item list
     Unit * player() { return dynamic_cast<Unit*>(itemList.first()); }
 
@@ -32,7 +34,7 @@ protected:
 
 private:
     void initScene();
-    void spawnEnemies();
+    void createEnemies();
 };
 
 #endif // BATTLESCENE_H
