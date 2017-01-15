@@ -33,8 +33,6 @@ void Shell::setY(qreal y)
 
 void Shell::onExplodeAction(QQuickItem *barrier)
 {
-    setLiveState(false);
-
     SceneObject * dynamicItem = dynamic_cast<SceneObject*>(barrier);
     // Check if item is a SceneObject (so it can be destroyed)
     if (dynamicItem)
@@ -44,6 +42,7 @@ void Shell::onExplodeAction(QQuickItem *barrier)
         if (unit)
             unit->setLivesCount(unit->livesLeft() - 1);
         else
-            dynamicItem->kill();
+            unit->setLiveState(false);
     }
+    setLiveState(false);
 }

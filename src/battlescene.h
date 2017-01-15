@@ -38,13 +38,9 @@ private:
     // Sets a pointer to a player instance; does nothing if the item already exists
     void setPlayer(Unit *p);
     // Creates new enemy at the given coordinate
-    Unit *directSpawn(const QPointF &position);
+    Unit * directSpawn(const QPointF &position);
     // Returns a pointer to the player instance. The player object is always the first in item list
     Unit * player() { return dynamic_cast<Unit*>(itemList.first()); }
-
-private slots:
-    void onGameOverEvent();
-
 };
 
 #endif // BATTLESCENE_H

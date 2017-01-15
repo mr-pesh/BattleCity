@@ -1,8 +1,8 @@
-import QtQuick 2.7
+import QtQuick 2.0
 
 BattleScene {
     visible: true
-    width: 915
+    width: 920
     height: 768
     objectName: "scene"
 }

@@ -23,7 +23,7 @@ class SceneObject : public QQuickItem
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool moving READ isMoving WRITE setMoveEvent)
+    Q_PROPERTY(bool moving READ isMoving WRITE setMoveState)
     Q_PROPERTY(int  moveSpeed READ speed WRITE setSpeed NOTIFY speedChanged)
     Q_PROPERTY(bool alive READ alive WRITE setLiveState NOTIFY liveStateChanged)
     Q_PROPERTY(int  direction READ direction WRITE setDirection NOTIFY directionChanged)
@@ -36,8 +36,8 @@ protected:
     SceneObject(QQuickItemPrivate &dd, QQuickItem *parent = Q_NULLPTR);
 
 public:
-    int  speed() const { return current_speed; }
     bool alive() const { return is_alive.load(); }
+    int  speed() const { return current_speed;   }
     int  direction() const { return current_direction; }
 
     void setLiveState(bool alive);
@@ -48,22 +48,22 @@ signals:
     void liveStateChanged(const bool alive);
     void directionChanged (int direction);
     void speedChanged (int speed);
-    //void dead(SceneObject*);
 
 public:
     // Provides collision detection on rectangular items
     virtual QQuickItem *checkCollision(qreal newX, qreal newY);
     // Sets the moving event flag
-    void setMoveEvent(bool isMoving) { is_moving = isMoving; }
+    void setMoveState(bool isMoving) { is_moving = isMoving; }
     // Checks wether an object is at moving state
     bool isMoving() const { return is_moving.load(); }
     // Performs the move action
     void move();
-    // Performs an action that prepares an object for disposal
-    void kill();
 
+    /* Override basic setX() and setY() functions
+     * to perform the collision handling first */
     virtual void setX(qreal) = 0;
     virtual void setY(qreal) = 0;
+
 
 protected:
     int current_speed;

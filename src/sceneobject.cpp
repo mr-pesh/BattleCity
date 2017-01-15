@@ -48,11 +48,6 @@ QQuickItem* SceneObject::checkCollision(qreal newX, qreal newY)
     return Q_NULLPTR;
 }
 
-void SceneObject::kill()
-{
-    setLiveState(false);
-}
-
 void SceneObject::setLiveState(bool alive)
 {
     this->is_alive = alive;

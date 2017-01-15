@@ -8,9 +8,6 @@ Unit {
     direction: 0
     lives: 3
 
-    // Handled by a scene
-    signal playerIsDead
-
     Image {
         id: img
         anchors.fill: parent

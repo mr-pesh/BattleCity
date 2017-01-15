@@ -49,16 +49,19 @@ inline void BattleScene::initScene()
 inline void BattleScene::setPlayer(Unit *p)
 {
     // The player item can be set only once
-    if (itemList.isEmpty() && p != Q_NULLPTR) {
-        // Connecting the game over event handler
-        connect(p, SIGNAL(playerIsDead()), this, SLOT(onGameOverEvent()));
+    if (itemList.isEmpty() && p != Q_NULLPTR)
+    {
+        p->setSpeed(PLAYER_SPEED);
         // Set the player respawn handler
-        connect(p, &Unit::livesCountChanged, this, [=](int lives) {
-            if (lives > 0)
+        connect(p, &Unit::livesCountChanged, this, [=](int lives)
+        {
+            if (lives > 0) {
+                p->setMoveState(false);
+                p->setDirection(Direction::North);
                 p->setPosition(unitSpawnPoints[0]);
+            }
         });
         itemList.append(dynamic_cast<SceneObject*>(p));
-        p->setProperty("moveSpeed", PLAYER_SPEED);
     }
 }
 
@@ -93,11 +96,6 @@ Unit* BattleScene::directSpawn(const QPointF &position)
     return (Unit*)unitFactory->create(ENEMY_SPEED, enemyDirection, enemyGeometry, rootObject());
 }
 
-void BattleScene::onGameOverEvent()
-{
-
-}
-
 void BattleScene::keyPressEvent(QKeyEvent *e)
 {
     static Unit *player = this->player();
@@ -106,19 +104,19 @@ void BattleScene::keyPressEvent(QKeyEvent *e)
         switch(e->key()) {
         case Qt::Key_Up:
             player->setDirection(Direction::North);
-            player->setMoveEvent(true);
+            player->setMoveState(true);
             break;
         case Qt::Key_Down:
             player->setDirection(Direction::South);
-            player->setMoveEvent(true);
+            player->setMoveState(true);
             break;
         case Qt::Key_Left:
             player->setDirection(Direction::West);
-            player->setMoveEvent(true);
+            player->setMoveState(true);
             break;
         case Qt::Key_Right:
             player->setDirection(Direction::East);
-            player->setMoveEvent(true);
+            player->setMoveState(true);
             break;
         case Qt::Key_Space:
             player->fire();
@@ -134,19 +132,19 @@ void BattleScene::keyReleaseEvent(QKeyEvent *e)
         switch(e->key()) {
         case Qt::Key_Up:
             if (player->direction() == Direction::North)
-                player->setMoveEvent(false);
+                player->setMoveState(false);
             break;
         case Qt::Key_Down:
             if (player->direction() == Direction::South)
-                player->setMoveEvent(false);
+                player->setMoveState(false);
             break;
         case Qt::Key_Left:
             if (player->direction() == Direction::West)
-                player->setMoveEvent(false);
+                player->setMoveState(false);
             break;
         case Qt::Key_Right:
             if (player->direction() == Direction::East)
-                player->setMoveEvent(false);
+                player->setMoveState(false);
             break;
         }
     }
@@ -162,13 +160,8 @@ void BattleScene::timerEvent(QTimerEvent *)
             if (item->isMoving())
                 item->move();
         } else {
-            // Check if the item to remove is the player item
-            if (player() != item)
-                delete item;
-            else
-                player()->setProperty("visible", false);
-
             itemList.removeOne(item);
+            delete item;
         }
     }
 }

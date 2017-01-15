@@ -6,5 +6,6 @@
         <file>qml/Shell.qml</file>
         <file>qml/Enemy.qml</file>
         <file>qml/Wall.qml</file>
+        <file>qml/GameOverScreen.qml</file>
     </qresource>
 </RCC>

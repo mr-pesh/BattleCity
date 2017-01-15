@@ -97,16 +97,16 @@ Rectangle {
 
     Wall {
         x: 185
-        y: 490
+        anchors.bottom: bot_wall.top
         width: player.width
-        height: 200
+        height: 268
     }
 
     Wall {
         x: 535
-        y: 490
+        anchors.bottom: bot_wall.top
         width: player.width
-        height: 200
+        height: 268
     }
 
     Wall {
@@ -164,7 +164,7 @@ Rectangle {
     }
 
     Wall {
-        x: 685
+        anchors.right: barrier_wall.left
         y: 390
         width: 60
         height: player.height
@@ -206,11 +206,12 @@ Rectangle {
     }
 
     Wall {
+        id: barrier_wall
         anchors.top: top_wall.bottom
         anchors.right: right_wall.left
         width: player.width / 4
         height: parent.height - (top_wall.height * 2)
-        anchors.rightMargin: 150
+        anchors.rightMargin: parent.width / 6
     }
 
     Wall {
@@ -219,4 +220,11 @@ Rectangle {
         width: 90
         height: player.height
     }
+
+//    GameOverScreen {
+//        width: 300
+//        height: 300
+//        anchors.verticalCenter: parent.verticalCenter
+//        anchors.horizontalCenter: parent.horizontalCenter
+//    }
 }

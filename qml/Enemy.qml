@@ -43,7 +43,7 @@ Unit {
     Timer {
         repeat: true
         running: true
-        interval: 3000
+        interval: 1000
 
         onTriggered: {
             timeToFire();
