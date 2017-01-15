@@ -4,7 +4,7 @@
 QPointF BattleScene::unitSpawnPoints[] =
 {
    /* Base player spawn points  */
-    { 360,645 }, { 360,  20 },
+    { 360,540 }, { 360,  20 },
    /* Initial enemy spawn points
     * at each corner of the map */
     { 15,  20 }, { 695,  20 },
@@ -57,8 +57,8 @@ inline void BattleScene::setPlayer(Unit *p)
         {
             if (lives > 0) {
                 p->setMoveState(false);
-                p->setDirection(Direction::North);
-                p->setPosition(unitSpawnPoints[0]);
+                p->setDirection(Direction::South);
+                p->setPosition (unitSpawnPoints[0]);
             }
         });
         itemList.append(dynamic_cast<SceneObject*>(p));

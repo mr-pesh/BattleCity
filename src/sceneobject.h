@@ -64,6 +64,9 @@ public:
     virtual void setX(qreal) = 0;
     virtual void setY(qreal) = 0;
 
+    // Performs the killing action
+    virtual void kill() = 0;
+
 
 protected:
     int current_speed;

@@ -3,10 +3,12 @@ import BattleSceneObjects 1.0
 import QtGraphicalEffects 1.0
 
 Unit {
-    id: player
-    objectName: "player"
-    direction: 0
     lives: 3
+    id: player
+    objectName: "player"   
+
+    // Emit when the player lives count falls to zero
+    signal playerIsDead
 
     Image {
         id: img
@@ -56,8 +58,14 @@ Unit {
     }
 
     onLivesCountChanged: {
-        respawnGlow.opacityFactor = 10;
-        glowTimer.start();
+        if (value > 0) {
+            respawnGlow.opacityFactor = 10;
+            glowTimer.start();
+        } else {
+            visible = false;
+            moving = false;
+            playerIsDead();
+        }
     }
     onLiveStateChanged: {
         if (!alive)

@@ -38,6 +38,12 @@ Unit {
         rotation: enemy.direction
     }
 
+    onLivesChanged: {
+        if (value <= 0) {
+            alive = false;
+        }
+    }
+
     signal timeToFire;
     signal timeToMove;
 

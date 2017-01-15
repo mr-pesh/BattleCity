@@ -23,6 +23,8 @@ public:
     virtual void setX(qreal x);
     virtual void setY(qreal y);
 
+    virtual void kill();
+
 
 public slots:
     void fire();
@@ -30,7 +32,7 @@ public slots:
     void rotate();
 
 signals:
-    void livesCountChanged(const int lives);
+    void livesCountChanged(int value);
 
 private:
     int lives_count;

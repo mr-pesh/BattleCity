@@ -20,6 +20,7 @@ private slots:
 public:
     virtual void setX(qreal);
     virtual void setY(qreal);
+    virtual void kill();
 };
 
 #endif // PROJECTILE_H

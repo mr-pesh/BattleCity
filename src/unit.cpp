@@ -18,11 +18,7 @@ Unit::~Unit()
 void Unit::setLivesCount(int lives)
 {
     this->lives_count = lives;
-
-    if (lives == 0)
-        setLiveState(false);
-    else
-        emit livesCountChanged(lives);
+    emit livesCountChanged(lives);
 }
 
 void Unit::setX(qreal x)
@@ -41,6 +37,11 @@ void Unit::setY(qreal y)
         if (!checkCollision(this->x(), y))
             QQuickItem::setY(y);
     //}
+}
+
+void Unit::kill()
+{
+    setLivesCount(livesLeft() - 1);
 }
 
 void Unit::fire()

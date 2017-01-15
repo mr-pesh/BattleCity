@@ -9,10 +9,16 @@ Rectangle {
     Player {
         id: player
         x: 360
-        y: 644
+        y: 540
         width: 40
         height: 40
+        direction: 180
+        onPlayerIsDead: {
+            game_over_screen.visible = true;
+        }
     }
+
+    property int wallSpaceFactor: (player.width + ((player.width / 4) * 3))
 
     Wall {
         id: left_wall
@@ -47,76 +53,97 @@ Rectangle {
     }
 
     Wall {
-        x: 75
-        y: 75
+        id: top_left_aligned_wall
+        anchors.left: left_wall.right
+        anchors.leftMargin: (wallSpaceFactor - (player.width / 8))
+        anchors.top: top_wall.bottom
+        anchors.topMargin: (wallSpaceFactor - (player.height / 8))
         width: player.width
         height: 250
     }
 
     Wall {
-        x: 185
-        y: 75
+        id: second_top_left_aligned_wall
+        anchors.left: top_left_aligned_wall.right
+        anchors.leftMargin: wallSpaceFactor
+        anchors.top: top_wall.bottom
         width: player.width
-        height: 250
+        height: 268
     }
 
     Wall {
-        x: 295
+        anchors.right: top_spawn_wall.left
         y: 75
         width: player.width
         height: 200
     }
 
     Wall {
-        x: 425
+        anchors.left: top_spawn_wall.right
         y: 75
         width: player.width
         height: 200
     }
 
     Wall {
-        x: 535
-        y: 75
+        id: second_top_right_aligned_wall
+        anchors.right: top_right_aligned_wall.left
+        anchors.rightMargin: wallSpaceFactor
+        anchors.top: top_wall.bottom
+        width: player.width
+        height: 268
+    }
+
+    Wall {
+        id: top_right_aligned_wall
+        anchors.right: barrier_wall.left
+        anchors.rightMargin: (wallSpaceFactor - (player.width / 8))
+        anchors.top: top_wall.bottom
+        anchors.topMargin: (wallSpaceFactor - (player.height / 8))
         width: player.width
         height: 250
     }
 
     Wall {
-        x: 645
-        y: 75
-        width: player.width
-        height: 250
-    }
-
-    Wall {
-        x: 75
-        y: 490
+        id: bot_left_aligned_wall
+        anchors.left: left_wall.right
+        anchors.leftMargin: (wallSpaceFactor - (player.width / 8))
+        anchors.bottom: bot_wall.top
+        anchors.bottomMargin: (wallSpaceFactor - (player.height / 8))
         width: player.width
         height: 200
     }
 
     Wall {
-        x: 185
+        id: second_bot_left_aligned_wall
+        anchors.left: bot_left_aligned_wall.right
+        anchors.leftMargin: wallSpaceFactor
         anchors.bottom: bot_wall.top
         width: player.width
         height: 268
     }
 
     Wall {
-        x: 535
+        id: second_bot_right_aligned_wall
+        anchors.right: bot_right_aligned_wall.left
+        anchors.rightMargin: wallSpaceFactor
         anchors.bottom: bot_wall.top
         width: player.width
         height: 268
     }
 
     Wall {
-        x: 645
-        y: 490
+        id: bot_right_aligned_wall
+        anchors.right: barrier_wall.left
+        anchors.rightMargin: (wallSpaceFactor - (player.width / 8))
+        anchors.bottom: bot_wall.top
+        anchors.bottomMargin: (wallSpaceFactor - (player.height / 8))
         width: player.width
         height: 200
     }
 
     Wall {
+        id: center_left_aligned_wall
         y: 390
         anchors.left: left_wall.right
         width: 60
@@ -124,9 +151,8 @@ Rectangle {
     }
 
     Wall {
-        x: 140
+        anchors.right: second_top_left_aligned_wall.right
         y: 390
-
         width: 90
         height: player.height
     }
@@ -137,7 +163,6 @@ Rectangle {
         anchors.bottom: left_base_wall.top
         width: 90
         height: player.height / 2.5
-        anchors.bottomMargin: 1
     }
 
     Wall {
@@ -145,7 +170,7 @@ Rectangle {
         x: 335
         anchors.bottom: bot_wall.top
         width: player.width / 2.5
-        height: player.height
+        height: player.height + player.height / 4
     }
 
     Wall {
@@ -153,17 +178,18 @@ Rectangle {
         x: 409
         anchors.bottom: bot_wall.top
         width: player.width / 2.5
-        height: player.height
+        height: player.height + player.height / 4
     }
 
     Wall {
-        x: 535
+        anchors.left: second_top_right_aligned_wall.left
         y: 390
         width: 80
         height: player.height
     }
 
     Wall {
+        id: center_right_aligned_wall
         anchors.right: barrier_wall.left
         y: 390
         width: 60
@@ -171,34 +197,37 @@ Rectangle {
     }
 
     Wall {
-        x: 295
+        anchors.right: top_spawn_wall.left
         y: 345
-        width: 40
-        height: player.height
+        width: player.width
+        height: 40
     }
 
     Wall {
-        x: 425
+        anchors.left: top_spawn_wall.right
         y: 345
-        width: 40
-        height: player.height
+        width: player.width
+        height: 40
     }
 
     Wall {
-        x: 295
+        id: left_bottom_spawn_wall
+        anchors.right: bottom_spawn_wall.left
         y: 455
-        width: 40
+        width: player.width
         height: 176
     }
 
     Wall {
-        x: 425
+        id: right_bottom_spawn_wall
+        anchors.left: bottom_spawn_wall.right
         y: 455
-        width: 40
+        width: player.width
         height: 176
     }
 
     Wall {
+        id: bottom_spawn_wall
         x: 335
         y: 475
         width: 90
@@ -215,16 +244,20 @@ Rectangle {
     }
 
     Wall {
+        id: top_spawn_wall
         x: 335
         y: 215
         width: 90
         height: player.height
     }
 
-//    GameOverScreen {
-//        width: 300
-//        height: 300
-//        anchors.verticalCenter: parent.verticalCenter
-//        anchors.horizontalCenter: parent.horizontalCenter
-//    }
+    GameOverScreen {
+        id: game_over_screen
+        width: 300
+        height: 300
+        visible: false
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: left_wall.right
+        anchors.leftMargin: ((barrier_wall.x - left_wall.x) / 2) - width / 2
+    }
 }

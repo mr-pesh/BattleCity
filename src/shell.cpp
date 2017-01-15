@@ -31,18 +31,17 @@ void Shell::setY(qreal y)
         QQuickItem::setY(y);
 }
 
+void Shell::kill()
+{
+    setLiveState(false);
+}
+
 void Shell::onExplodeAction(QQuickItem *barrier)
 {
+    setLiveState(false);
+
     SceneObject * dynamicItem = dynamic_cast<SceneObject*>(barrier);
     // Check if item is a SceneObject (so it can be destroyed)
     if (dynamicItem)
-    {
-        Unit * unit = dynamic_cast<Unit*>(dynamicItem);
-        // Check if item is a Unit (so it has the amount of lives)
-        if (unit)
-            unit->setLivesCount(unit->livesLeft() - 1);
-        else
-            unit->setLiveState(false);
-    }
-    setLiveState(false);
+        dynamicItem->kill();
 }
