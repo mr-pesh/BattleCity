@@ -9,7 +9,8 @@ HEADERS += \
     src/battlescene.h \
     src/sceneobject.h \
     src/sceneobjectfactory.h \
-    src/shell.h
+    src/shell.h \
+    src/aiunit.h
 
 SOURCES += \
     src/main.cpp \
@@ -17,7 +18,8 @@ SOURCES += \
     src/battlescene.cpp \
     src/sceneobject.cpp \
     src/sceneobjectfactory.cpp \
-    src/shell.cpp
+    src/shell.cpp \
+    src/aiunit.cpp
 
 RESOURCES += qml.qrc \
     res.qrc

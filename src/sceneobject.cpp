@@ -34,6 +34,10 @@ QQuickItem* SceneObject::checkCollision(qreal newX, qreal newY)
         {
         /*x4*/ movesHorizontally ? (movesLeft ? newX : (newX + width)) : newX + width,
         /*y4*/ movesHorizontally ? (newY + height) : (movesUp ? newY : (newY + height))
+        },
+        {
+        /*x5*/ movesHorizontally ? (movesLeft ? newX : (newX + width)) : newX + (width / 2),
+        /*y5*/ movesHorizontally ? (newY + height / 2) : (movesUp ? newY : (newY + height))
         }
     };
 

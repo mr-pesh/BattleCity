@@ -1,10 +1,10 @@
 import QtQuick 2.0
 import BattleSceneObjects 1.0
 
-Unit {
+AIUnit {
     id: enemy
     lives: 1
-    moving: false
+    moving: true
 
     Image {
         id: img
@@ -41,20 +41,6 @@ Unit {
     onLivesChanged: {
         if (value <= 0) {
             alive = false;
-        }
-    }
-
-    signal timeToFire;
-    signal timeToMove;
-
-    Timer {
-        repeat: true
-        running: true
-        interval: 1000
-
-        onTriggered: {
-            timeToFire();
-            timeToMove();
         }
     }
 }

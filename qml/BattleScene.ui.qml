@@ -3,7 +3,6 @@ import QtQuick 2.0
 Rectangle {
     width: 915
     height: 768
-
     color: "black"
 
     Player {
@@ -16,6 +15,14 @@ Rectangle {
         onPlayerIsDead: {
             game_over_screen.visible = true;
         }
+    }
+
+    Base {
+        anchors.left: left_base_wall.right
+        anchors.bottom: bot_wall.top
+        anchors.leftMargin: 4
+        width: height
+        height: left_base_wall.height
     }
 
     property int wallSpaceFactor: (player.width + ((player.width / 4) * 3))
@@ -259,5 +266,15 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: left_wall.right
         anchors.leftMargin: ((barrier_wall.x - left_wall.x) / 2) - width / 2
+    }
+
+    StatusPanel {
+        objectName: "statusPanel"
+        livesCount: player.lives
+        visible: true
+        width: right_wall.x - (barrier_wall.x + barrier_wall.width)
+        height: bot_wall.y - (top_wall.y + top_wall.height)
+        anchors.top: top_wall.bottom
+        anchors.left: barrier_wall.right
     }
 }

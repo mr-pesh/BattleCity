@@ -17,22 +17,20 @@ protected:
 public:
     ~Unit();
 
+signals:
+    void livesCountChanged(int value);
+
+public:
     void setLivesCount(int lives);
     int  livesLeft() const { return lives_count; }
+
+    void fire();
 
     virtual void setX(qreal x);
     virtual void setY(qreal y);
 
     virtual void kill();
 
-
-public slots:
-    void fire();
-    void move();
-    void rotate();
-
-signals:
-    void livesCountChanged(int value);
 
 private:
     int lives_count;
