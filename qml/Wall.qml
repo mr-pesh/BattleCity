@@ -7,7 +7,7 @@ Rectangle
         visible: false
         sourceSize.width: 256
         sourceSize.height: 256
-        source: "qrc:/res/brick_sml_red1.png"
+        source: "qrc:/res/img/brick_sml_red1.png"
     }
     ShaderEffect {
         anchors.fill: parent

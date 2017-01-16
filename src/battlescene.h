@@ -18,6 +18,7 @@ class BattleScene : public QQuickView
     // An array of predefined points appropriate for unit spawn
     static QPointF unitSpawnPoints[];
 
+
 public:
     BattleScene(QWindow *parent = Q_NULLPTR);
     BattleScene(QQmlEngine *engine, QWindow *parent);
@@ -42,7 +43,7 @@ private:
     void createEnemies();
     // Initializes right status panel with the defined values
     void initStatusPanel();
-    // Initializes the victory screen
+    // Initializes the MediaPlayer instance
     void setVictoryEvent();
     // Sets a pointer to a player instance; does nothing if the item already exists
     void setPlayer(Unit *p);

@@ -1,11 +1,11 @@
 #include "battlescene.h"
-#include <algorithm>
 #include <QTimer>
+#include <algorithm>
 
 QPointF BattleScene::unitSpawnPoints[] =
 {
    /* Base player spawn points  */
-    { 360,540 }, { 360,  20 },
+    { 360,120 }, { 360,  20 },
    /* Initial enemy spawn points
     * at each corner of the map */
     { 15,  20 }, { 695,  20 },
@@ -35,19 +35,22 @@ BattleScene::~BattleScene()
     delete unitFactory;
 }
 
+/**
+ *  Battle scene basic initialization method
+ */
 inline void BattleScene::initScene()
-{    
+{        
     // Initializing a unit factory
     unitFactory->setEngine(engine());
     unitFactory->setSceneObjectList(&itemList);
     unitFactory->setItemContext(rootContext());
     // Set the pointer to a player QML item
     setPlayer(rootObject()->findChild<Unit*>("player"));
-    //
+    // Initialize the status panel with the scene values
     initStatusPanel();
     // Initialize the pseudo-random number generator for choosing enemy spawn points
     qsrand(time(NULL));
-    //
+    // Set the 'victory' signal handlers
     setVictoryEvent();
     // Spawn initial amount of enemies
     createEnemies();
@@ -55,6 +58,23 @@ inline void BattleScene::initScene()
     startTimer(FRAME_DURATION);
 }
 
+/**
+ *  Binds the scene values to the qml status panel
+ */
+inline void BattleScene::initStatusPanel()
+{
+    QQuickItem * panel = rootObject()->findChild<QQuickItem*>("statusPanel");
+
+    // Bind the scene variable change to the StatusPanel property
+    connect(this, &BattleScene::enemiesToSpawnCountChanged, panel, [=] (int enemiesLeft) {
+        panel->setProperty("enemiesLeft", enemiesLeft);
+    });
+
+}
+
+/**
+ *  Initializes basic player properties and adds its instance to the scene list
+ */
 inline void BattleScene::setPlayer(Unit *p)
 {
     // The player item can be set only once
@@ -76,22 +96,14 @@ inline void BattleScene::setPlayer(Unit *p)
     }
 }
 
-inline void BattleScene::initStatusPanel()
-{
-    QQuickItem * panel = rootObject()->findChild<QQuickItem*>("statusPanel");
-
-    // Bind the scene variable change to the StatusPanel property
-    connect(this, &BattleScene::enemiesToSpawnCountChanged, panel, [=] (int enemiesLeft) {
-        panel->setProperty("enemiesLeft", enemiesLeft);
-    });
-
-}
-
+/**
+ *  Sets the signal handlers for the win case
+ */
 inline void BattleScene::setVictoryEvent()
 {
     QQuickItem * screen = rootObject()->findChild<QQuickItem*>("g_o_screen");
 
-    //
+    // Set the GameOverScreen to 'Victory' state
     connect(this, &BattleScene::runningEnemiesCountChanged, screen, [=] (int enemiesLeft) {
         if (enemiesLeft == 0) {
             screen->setProperty("text", "Victory");
@@ -100,6 +112,9 @@ inline void BattleScene::setVictoryEvent()
     });
 }
 
+/**
+ *  Creates the initial amount of enemies
+ */
 inline void BattleScene::createEnemies()
 {
     // Becase the initial enemy spawn points are the

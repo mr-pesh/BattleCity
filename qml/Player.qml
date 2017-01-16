@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import BattleSceneObjects 1.0
 import QtGraphicalEffects 1.0
+import QtMultimedia 5.5
 
 Unit {
     lives: 3
@@ -13,7 +14,7 @@ Unit {
     Image {
         id: img
         anchors.fill: parent
-        source: "qrc:/res/battle.png"
+        source: "qrc:/res/img/battle.png"
         rotation: player.direction
     }
     // The glow effect that appears while the player spawns
@@ -57,7 +58,18 @@ Unit {
         }
     }
 
+    SoundEffect {
+        id: fireSound
+        source: "qrc:/res/audio/battle_city_shot.wav"
+    }
+
+    SoundEffect {
+        id: explSound
+        source: "qrc:/res/audio/battle_city_explode.wav"
+    }
+
     onLivesCountChanged: {
+        explSound.play();
         if (value > 0) {
             respawnGlow.opacityFactor = 10;
             glowTimer.start();
@@ -67,8 +79,7 @@ Unit {
             playerIsDead();
         }
     }
-    onLiveStateChanged: {
-        if (!alive)
-            playerIsDead();
+    onFired: {
+        fireSound.play();
     }
 }

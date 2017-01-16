@@ -24,6 +24,9 @@ void SceneObjectFactory::setSceneObjectList(SceneObjectList *list)
     SceneObjectFactory::sceneObjectList = list;
 }
 
+/**
+ *  Creates a scene object and sets the common properties for it
+ */
 SceneObject * SceneObjectFactory::create(int speed, int direction, const QRectF &geometry, QQuickItem *sceneContext)
 {
     if (sceneObjectList && engine)

@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtMultimedia 5.5
 import BattleSceneObjects 1.0
 
 AIUnit {
@@ -10,7 +11,7 @@ AIUnit {
         id: img
         visible: false
         anchors.fill: parent
-        source: "qrc:/res/com.badlogic.androidgames.tank1990.png"
+        source: "qrc:/res/img/com.badlogic.androidgames.tank1990.png"
     }
     ShaderEffect {
         anchors.fill: parent

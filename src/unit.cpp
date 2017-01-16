@@ -46,6 +46,8 @@ void Unit::kill()
 
 void Unit::fire()
 {
+    emit fired();
+
     int direction = this->direction();
 
     bool movesHorizontally = (direction == Direction::East || direction == Direction::West),

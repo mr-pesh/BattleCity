@@ -19,18 +19,20 @@ public:
 
 signals:
     void livesCountChanged(int value);
+    void fired();
+
+public slots:
+    void fire();
 
 public:
     void setLivesCount(int lives);
     int  livesLeft() const { return lives_count; }
-
-    void fire();
-
+    // setX and setY should be overrided for each subclass of SceneObject to implement
+    // the appropriate collision handling
     virtual void setX(qreal x);
     virtual void setY(qreal y);
-
+    // Peform the kill operation on current unit
     virtual void kill();
-
 
 private:
     int lives_count;

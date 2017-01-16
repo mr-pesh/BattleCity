@@ -10,6 +10,9 @@ SceneObject::SceneObject(QQuickItemPrivate &dd, QQuickItem *parent) : QQuickItem
     is_moving(false)
 {  }
 
+/**
+ *  Checks if there is an object on the way to a new point, given with 'newX' and 'newY' values
+ */
 QQuickItem* SceneObject::checkCollision(qreal newX, qreal newY)
 {
     qreal x = this->x(), y = this->y(), width = this->width(), height = this->height();
