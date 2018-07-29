@@ -1,9 +1,10 @@
+#include "directiontype.h"
 #include "battlescene.h"
-#include <ctime>
 #include "size.h"
 
-#include <QTimer>
 #include <algorithm>
+#include <ctime>
+#include <QTimer>
 
 QPointF BattleScene::unitSpawnPoints[] =
 {
@@ -90,7 +91,7 @@ inline void BattleScene::setPlayer(Unit *p)
         {
             if (lives > 0) {
                 p->setMoveState(false);
-                p->setDirection(Direction::South);
+                p->setDirection(DirectionType::South);
                 p->setPosition (unitSpawnPoints[0]);
             }
         });
@@ -154,7 +155,7 @@ Unit* BattleScene::directSpawn(const QPointF &position)
         (player->width()  / 4.0) + player->width(),
         (player->height() / 4.0) + player->height(),
     };
-    Direction enemyDirection = (position.y() > (this->height() / 2)) ? Direction::North : Direction::South;
+    DirectionType enemyDirection = (position.y() > (this->height() / 2)) ? DirectionType::North : DirectionType::South;
 
     auto enemy = unitFactory->create(ENEMY_SPEED, enemyDirection, enemyGeometry, rootObject());
 
@@ -212,19 +213,19 @@ void BattleScene::keyPressEvent(QKeyEvent *e)
     if (e && player) {
         switch(e->key()) {
         case Qt::Key_Up:
-            player->setDirection(Direction::North);
+            player->setDirection(DirectionType::North);
             player->setMoveState(true);
             break;
         case Qt::Key_Down:
-            player->setDirection(Direction::South);
+            player->setDirection(DirectionType::South);
             player->setMoveState(true);
             break;
         case Qt::Key_Left:
-            player->setDirection(Direction::West);
+            player->setDirection(DirectionType::West);
             player->setMoveState(true);
             break;
         case Qt::Key_Right:
-            player->setDirection(Direction::East);
+            player->setDirection(DirectionType::East);
             player->setMoveState(true);
             break;
         case Qt::Key_Space:
@@ -240,19 +241,19 @@ void BattleScene::keyReleaseEvent(QKeyEvent *e)
     if (e && player) {
         switch(e->key()) {
         case Qt::Key_Up:
-            if (player->direction() == Direction::North)
+            if (player->direction() == DirectionType::North)
                 player->setMoveState(false);
             break;
         case Qt::Key_Down:
-            if (player->direction() == Direction::South)
+            if (player->direction() == DirectionType::South)
                 player->setMoveState(false);
             break;
         case Qt::Key_Left:
-            if (player->direction() == Direction::West)
+            if (player->direction() == DirectionType::West)
                 player->setMoveState(false);
             break;
         case Qt::Key_Right:
-            if (player->direction() == Direction::East)
+            if (player->direction() == DirectionType::East)
                 player->setMoveState(false);
             break;
         }

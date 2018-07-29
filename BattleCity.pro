@@ -11,7 +11,8 @@ HEADERS += \
     src/sceneobjectfactory.h \
     src/shell.h \
     src/aiunit.h \
-    src/size.h
+    src/size.h \
+    src/directiontype.h
 
 SOURCES += \
     src/main.cpp \
@@ -20,7 +21,8 @@ SOURCES += \
     src/sceneobject.cpp \
     src/sceneobjectfactory.cpp \
     src/shell.cpp \
-    src/aiunit.cpp
+    src/aiunit.cpp \
+    src/directiontype.cpp
 
 RESOURCES += qml.qrc res.qrc
 

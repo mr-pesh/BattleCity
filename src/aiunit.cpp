@@ -1,4 +1,5 @@
 #include "aiunit.h"
+#include "directiontype.h"
 
 AIUnit::AIUnit(QQuickItem *parent) : Unit(parent) { initAI(); }
 
@@ -17,13 +18,13 @@ inline void AIUnit::rotate()
 
 
     if (rotationClockwise) {
-        newDirection = this->direction() == Direction::West
-                ? Direction::North
+        newDirection = this->direction() == DirectionType::West
+                ? DirectionType::North
                 : this->direction() + 90;
     }
     else {
-        newDirection = this->direction() == Direction::North
-                ? Direction::West
+        newDirection = this->direction() == DirectionType::North
+                ? DirectionType::West
                 : this->direction() - 90;
     }
     this->setDirection(newDirection);

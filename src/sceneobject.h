@@ -4,14 +4,6 @@
 #include <atomic>
 #include <QtQuick/QQuickItem>
 
-enum Direction
-{
-    North = 0,
-    East  = 90,
-    South = 180,
-    West  = 270
-};
-
 class SceneObject;
 
 typedef QList<SceneObject*> SceneObjectList;

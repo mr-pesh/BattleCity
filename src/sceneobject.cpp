@@ -1,3 +1,4 @@
+#include "directiontype.h"
 #include "sceneobject.h"
 
 SceneObject::SceneObject(QQuickItem *parent) : QQuickItem(parent),
@@ -78,16 +79,16 @@ void SceneObject::setDirection(int direction)
 void SceneObject::move()
 {
     switch(current_direction) {
-    case Direction::North:
+    case DirectionType::North:
         setY(y() - speed());
         break;
-    case Direction::South:
+    case DirectionType::South:
         setY(y() + speed());
         break;
-    case Direction::East:
+    case DirectionType::East:
         setX(x() + speed());
         break;
-    case Direction::West:
+    case DirectionType::West:
         setX(x() - speed());
         break;
     }

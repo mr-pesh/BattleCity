@@ -1,4 +1,5 @@
 #include "unit.h"
+#include "directiontype.h"
 
 Unit::Unit(QQuickItem *parent) : SceneObject(parent)
 {
@@ -50,9 +51,9 @@ void Unit::fire()
 
     int direction = this->direction();
 
-    bool movesHorizontally = (direction == Direction::East || direction == Direction::West),
-            movesLeft = (direction == Direction::West),
-            movesUp = (direction == Direction::North);
+    bool movesHorizontally = (direction == DirectionType::East || direction == DirectionType::West),
+            movesLeft = (direction == DirectionType::West),
+            movesUp = (direction == DirectionType::North);
 
     qreal x = this->x(), y = this->y(), width = this->width(), height = this->height();
 

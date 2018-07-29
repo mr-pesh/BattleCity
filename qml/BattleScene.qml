@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import BattleSceneObjects 1.0
 
 Rectangle {
     width: 915
@@ -11,7 +12,7 @@ Rectangle {
         y: 540
         width: 40
         height: 40
-        direction: 180
+        direction: Direction.South
         onPlayerIsDead: {
             game_over_screen.visible = true;
         }
