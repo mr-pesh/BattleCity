@@ -1,4 +1,7 @@
 #include "battlescene.h"
+#include <ctime>
+#include "size.h"
+
 #include <QTimer>
 #include <algorithm>
 

@@ -10,7 +10,8 @@ HEADERS += \
     src/sceneobject.h \
     src/sceneobjectfactory.h \
     src/shell.h \
-    src/aiunit.h
+    src/aiunit.h \
+    src/size.h
 
 SOURCES += \
     src/main.cpp \

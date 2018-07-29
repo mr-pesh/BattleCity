@@ -2,6 +2,7 @@
 #define SCENEOBJECT_H
 
 #include "global.h"
+#include <atomic>
 #include <QtQuick/QQuickItem>
 
 enum Direction
