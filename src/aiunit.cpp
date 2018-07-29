@@ -49,7 +49,7 @@ void AIUnit::setY(qreal y)
         QQuickItem::setY(y);
     }
     else {
-          // Occasional rotate
+        // Occasional rotate
         int occasionalRotate = qrand() % 2;
         if (occasionalRotate) {
             this->rotate();

@@ -14,7 +14,7 @@ class BattleScene : public QQuickView
     SceneObjectList itemList;
     // Manages the enemy unit creation
     SceneObjectFactory *unitFactory;
-    // An array of predefined points appropriate for unit spawn
+    // An array of predefined points for unit spawn
     static QPointF unitSpawnPoints[];
 
 
@@ -36,23 +36,23 @@ protected:
 
 private:
     void initScene();
-    // Creates a new enemy at a random spawn point
+    // Create a new enemy at a random spawn point
     void spawnEnemy();
-    // Creates the initial amount of enemies at their base spawn points
+    // Create the initial amount of enemies at their base spawn points
     void createEnemies();
-    // Initializes right status panel with the defined values
+    // Initialize right status panel with the defined values
     void initStatusPanel();
-    // Initializes the MediaPlayer instance
+    // Initialize the MediaPlayer instance
     void setVictoryEvent();
-    // Sets a pointer to a player instance; does nothing if the item already exists
+    // Set a pointer to a player instance; does nothing if the item already exists
     void setPlayer(Unit *p);
-    // Checks the enemies count and spawns another one if necessary
+    // Check the enemies count and spawns another one if necessary
     void checkRunningEnemies();
-    // Removes the given SceneObject item in appropriate way
+    // Remove the given SceneObject item in appropriate way
     void removeItem(SceneObject *item);
-    // Creates new enemy at the given coordinate
+    // Create new enemy at the given coordinate
     Unit * directSpawn(const QPointF &position);
-    // Returns a pointer to the player instance. The player object is always the first in item list
+    // Return a pointer to the player instance. The player object is always the first in item list
     Unit * player() { return dynamic_cast<Unit*>(itemList.first()); }
 
 public:

@@ -39,11 +39,11 @@ BattleScene::~BattleScene()
 }
 
 /**
- *  Battle scene basic initialization method
+ *  Battle scene initialization function
  */
 inline void BattleScene::initScene()
 {        
-    // Initializing a unit factory
+    // Initialize a unit factory
     unitFactory->setEngine(engine());
     unitFactory->setSceneObjectList(&itemList);
     unitFactory->setItemContext(rootContext());
@@ -57,7 +57,7 @@ inline void BattleScene::initScene()
     setVictoryEvent();
     // Spawn initial amount of enemies
     createEnemies();
-    // Starting the timer that manages move event handling
+    // Starting the timer to manage move event handling
     startTimer(FRAME_DURATION);
 }
 
@@ -76,7 +76,7 @@ inline void BattleScene::initStatusPanel()
 }
 
 /**
- *  Initializes basic player properties and adds its instance to the scene list
+ *  Initialize basic player properties and add instance to the scene list
  */
 inline void BattleScene::setPlayer(Unit *p)
 {
@@ -116,12 +116,12 @@ inline void BattleScene::setVictoryEvent()
 }
 
 /**
- *  Creates the initial amount of enemies
+ *  Create the initial amount of enemies
  */
 inline void BattleScene::createEnemies()
 {
-    // Becase the initial enemy spawn points are the
-    // corners of the map we starting from the 3-d point
+    // Since the initial enemy spawn points are the
+    // corners of the map we should start from the 3-d point
     std::for_each(&unitSpawnPoints[2], std::end(unitSpawnPoints), [this] (const QPointF &p)
     {
         directSpawn(p);

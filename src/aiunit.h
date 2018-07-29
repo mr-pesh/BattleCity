@@ -17,6 +17,6 @@ protected:
 
 private:
     void initAI();
-    // Performs the AI rotation
+    // Perform the AI rotation
     void rotate();
 };

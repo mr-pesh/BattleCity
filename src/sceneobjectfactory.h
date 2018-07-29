@@ -18,7 +18,7 @@ class SceneObjectFactory
     const QUrl qmlInstance;
     // Engine for instantiating the QML components
     static QQmlEngine *engine;
-    // Context of creating QML items
+    // Context for creating QML items
     static QQmlContext *itemContext;
     // A pointer to a list of all scene object
     static SceneObjectList *sceneObjectList;
