@@ -1,7 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.7
+import QtMultimedia 5.5
 import BattleSceneObjects 1.0
 import QtGraphicalEffects 1.0
-import QtMultimedia 5.5
 
 Unit {
     lives: 3
