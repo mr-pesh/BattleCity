@@ -17,23 +17,24 @@ Unit {
         source: "qrc:/res/img/battle.png"
         rotation: player.direction
     }
-    // The glow effect that appears while the player spawns
+    // The glow effect that appears on player spawn
     Glow
     {
-        // Used for smooth glow animation
-        property double opacityFactor: 0
-
         id: respawnGlow
         anchors.fill: img
-        opacity: opacityFactor * 0.1
         radius: 10
         samples: 21
         color: "white"
         source: img
         rotation: player.direction
+        opacity: 0
 
-        // Applies pulse animation effect on glow effect
-        Behavior on opacityFactor { NumberAnimation {} }
+        // Applies pulse animation effect
+        Behavior on opacity {
+          NumberAnimation {
+            duration: 250; easing: Easing.InOutCubic
+          }
+        }
     }
 
     Timer {
@@ -49,10 +50,10 @@ Unit {
             if (ticks > 6) {
                 ticks = 0;
                 glowTimer.stop();
-                respawnGlow.opacityFactor = 0;
+                respawnGlow.opacity = 0;
             }
             else {
-                respawnGlow.opacityFactor = respawnGlow.opacityFactor > 0 ? 0 : 10
+                respawnGlow.opacity = respawnGlow.opacity ? 0 : 1;
                 ticks++;
             }
         }
@@ -71,7 +72,7 @@ Unit {
     onLivesCountChanged: {
         explSound.play();
         if (value > 0) {
-            respawnGlow.opacityFactor = 10;
+            respawnGlow.opacity = 1;
             glowTimer.start();
         } else {
             visible = false;
