@@ -1,5 +1,4 @@
-#ifndef SCENEOBJECT_H
-#define SCENEOBJECT_H
+#pragma once
 
 #include "global.h"
 #include <atomic>
@@ -77,5 +76,3 @@ private:
     std::atomic_bool is_alive;
     std::atomic_bool is_moving;
 };
-
-#endif // SCENEOBJECT_H

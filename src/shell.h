@@ -1,5 +1,4 @@
-#ifndef PROJECTILE_H
-#define PROJECTILE_H
+#pragma once
 
 #include "sceneobject.h"
 
@@ -22,5 +21,3 @@ public:
     virtual void setY(qreal);
     virtual void kill();
 };
-
-#endif // PROJECTILE_H

@@ -1,5 +1,4 @@
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#pragma once
 
 #define FRAME_DURATION 30
 
@@ -13,4 +12,3 @@
 #define MAX_RUNNING_ENEMIES 4
 #define ENEMY_RESPAWN_INTERVAL 3000
 #define AI_TICK_INTERVAL 1000
-#endif // GLOBAL_H

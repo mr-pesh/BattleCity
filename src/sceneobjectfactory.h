@@ -1,5 +1,4 @@
-#ifndef SCENEOBJECTFACTORY_H
-#define SCENEOBJECTFACTORY_H
+#pragma once
 
 #include "sceneobject.h"
 
@@ -39,5 +38,3 @@ public:
 public:
     SceneObject * create(int speed, int direction, const QRectF &geometry, QQuickItem *sceneContext);
 };
-
-#endif // SCENEOBJECTFACTORY_H

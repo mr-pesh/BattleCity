@@ -1,5 +1,4 @@
-#ifndef BATTLESCENE_H
-#define BATTLESCENE_H
+#pragma once
 
 #include <QtQuick/QQuickView>
 #include <QtQuick/QSGTexture>
@@ -67,5 +66,3 @@ private:
     int enemies_to_spawn;
     int running_enemies;
 };
-
-#endif // BATTLESCENE_H

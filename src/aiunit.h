@@ -1,5 +1,4 @@
-#ifndef AIUNIT_H
-#define AIUNIT_H
+#pragma once
 
 #include "unit.h"
 
@@ -21,5 +20,3 @@ private:
     // Provides the AI rotation
     void rotate();
 };
-
-#endif // AIUNIT_H

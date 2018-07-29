@@ -1,5 +1,4 @@
-#ifndef UNIT_H
-#define UNIT_H
+#pragma once
 
 #include "sceneobjectfactory.h"
 
@@ -37,5 +36,3 @@ public:
 private:
     int lives_count;
 };
-
-#endif // UNIT_H
