@@ -1,11 +1,15 @@
 import QtQuick 2.7
 import QtMultimedia 5.5
 
-BattleScene {
-    visible: true
+Rectangle {
+    objectName: "scene"
     width: 920
     height: 768
-    objectName: "scene"
+    color: "black"
+
+    BattleScene {
+      anchors.fill: parent
+    }
 
     Audio {
         id: introMusic
@@ -14,5 +18,4 @@ BattleScene {
         loops: 1
         source: "qrc:/res/audio/battle_city_stage_intro.mp3"
     }
-
 }

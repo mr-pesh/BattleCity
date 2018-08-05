@@ -10,5 +10,6 @@
         <file>qml/StatusPanel.qml</file>
         <file>qml/PanelEnemyImage.qml</file>
         <file>qml/BattleScene.qml</file>
+        <file>qml/Level_1.json</file>
     </qresource>
 </RCC>

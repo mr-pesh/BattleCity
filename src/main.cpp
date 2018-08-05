@@ -4,6 +4,7 @@
 #include "aiunit.h"
 #include "battlescene.h"
 #include "directiontype.h"
+#include "battlescene_impl.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +14,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Shell> ("BattleSceneObjects", 1, 0, "Shell");
     qmlRegisterType<AIUnit>("BattleSceneObjects", 1, 0, "AIUnit");
     DirectionGadget::registerQmlTypes("BattleSceneObjects", 1, 0);
+    BattleScenePrivate::registerQmlTypes("BattleSceneObjects", 1, 0);
 
     BattleScene view(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     // Resize main window to the size of the view
