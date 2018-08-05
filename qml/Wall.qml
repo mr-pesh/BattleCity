@@ -37,8 +37,8 @@ Rectangle
             varying highp vec2 texCoord;
             uniform sampler2D texture;
             void main() {
-                float x = texCoord.x;
-                float y = texCoord.y;
+                lowp float x = texCoord.x;
+                lowp float y = texCoord.y;
                 while (x > 1.0)
                     x = x - 1.0;
                 while (y > 1.0)
